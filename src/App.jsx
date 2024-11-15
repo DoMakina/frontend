@@ -1,10 +1,17 @@
-function App() {
+import React from "react";
+import { AuthProvider } from "./context/AuthContext";
+import RouterManagement from "./router/RouterManagement";
+import { Toaster } from "react-hot-toast";
+
+const App = () => {
 	return (
-		<div className="flex h-screen w-screen items-center justify-center bg-black text-white">
-			<h1 className="text-4xl">Hello World!</h1>
-			<p>Makina</p>
-		</div>
+		<React.Fragment>
+			<AuthProvider>
+				<RouterManagement />
+			</AuthProvider>
+			<Toaster toastOptions={{ duration: 3000 }} />
+		</React.Fragment>
 	);
-}
+};
 
 export default App;
