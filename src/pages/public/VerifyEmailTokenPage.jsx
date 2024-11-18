@@ -1,8 +1,12 @@
+import { MainLayout } from "../../components/layouts";
+
 const VerifyEmailTokenPage = () => {
 	return (
-		<div>
-			<h1>Verify Email Token Page</h1>
-		</div>
+		<MainLayout>
+			<div className="flex flex-grow items-center justify-center">
+				<h1>Verify Email Token Page</h1>
+			</div>
+		</MainLayout>
 	);
 };
 

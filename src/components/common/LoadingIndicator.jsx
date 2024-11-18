@@ -1,6 +1,6 @@
 import { ClipLoader } from "react-spinners";
 
-const LoadingIndicator = ({ size = 60, color = "#D9251D" }) => {
+const LoadingIndicator = ({ size = 60, color = "#4476fb" }) => {
 	return <ClipLoader color={color} size={size} />;
 };
 

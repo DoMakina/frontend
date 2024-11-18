@@ -1,8 +1,11 @@
+import { MainLayout } from "../../components/layouts";
 const ResetPasswordPage = () => {
 	return (
-		<div>
-			<h1>Reset Password Page</h1>
-		</div>
+		<MainLayout>
+			<div className="flex flex-grow items-center justify-center">
+				<h1>Reset Password Page</h1>
+			</div>
+		</MainLayout>
 	);
 };
 
