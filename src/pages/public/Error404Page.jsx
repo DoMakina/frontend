@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
+import { MainLayout } from "../../components/layouts";
 
 const Error404Page = () => {
 	return (
-		<div className="">
-			<h1>
-				Page not found. Go back to <Link to="/">Home</Link>
-			</h1>
-		</div>
+		<MainLayout>
+			<div className="flex flex-grow flex-col items-center justify-center space-y-1">
+				<h1 className="text-2xl">404 Page Not Found</h1>
+				<Link className="text-theme-blue" to="/">
+					Go to Home
+				</Link>
+			</div>
+		</MainLayout>
 	);
 };
 

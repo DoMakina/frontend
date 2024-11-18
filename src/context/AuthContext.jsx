@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider value={value}>
 			{loading ? (
-				<div className="bg-theme-bg flex h-screen w-screen items-center justify-center">
+				<div className="flex h-screen w-screen items-center justify-center bg-theme-bg">
 					<LoadingIndicator />
 				</div>
 			) : (
