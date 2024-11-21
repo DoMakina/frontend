@@ -138,7 +138,7 @@ const SignUpPage = () => {
 									required
 								/>
 								<label htmlFor="checkbox">
-									<span className="text-theme-light-gray text-[13px]">
+									<span className="text-[13px] text-theme-light-gray">
 										I accept the
 									</span>{" "}
 									<Link
@@ -159,7 +159,7 @@ const SignUpPage = () => {
 								Sign Up
 							</Button>
 							<div className="flex flex-row space-x-2">
-								<span className="text-theme-light-gray text-[14px]">
+								<span className="text-[14px] text-theme-light-gray">
 									Already have an account?
 								</span>
 								<Link

@@ -1,5 +1,7 @@
+import { MainLayout } from "../../components/layouts";
+
 const VerifyEmailPage = () => {
-	return <div className="">Verify Email Page</div>;
+	return <MainLayout>Verify email page</MainLayout>;
 };
 
 export default VerifyEmailPage;

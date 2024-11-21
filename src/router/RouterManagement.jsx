@@ -8,9 +8,11 @@ import {
 	ForgotPasswordPage,
 	ResetPasswordPage,
 	VerifyEmailTokenPage,
+	SearchPage,
+	CarPage,
 } from "../pages/public";
 import { VerifyEmailPage } from "../pages/onboarding";
-import {} from "../pages/private";
+import { DashboardPage, SellCarPage } from "../pages/private";
 
 const RouterManagement = () => {
 	return (
@@ -18,6 +20,8 @@ const RouterManagement = () => {
 			<Routes>
 				{/* Add the public routes */}
 				<Route path="/" element={<HomePage />} />
+				<Route path="/search" element={<SearchPage />} />
+				<Route path="/car/:id" element={<CarPage />} />
 				<Route
 					path="/reset-password/:token"
 					element={<ResetPasswordPage />}
@@ -43,8 +47,12 @@ const RouterManagement = () => {
 				</Route>
 
 				{/* Add the private routes */}
-				<Route path="/" element={<PrivateRoutes />}></Route>
+				<Route path="/" element={<PrivateRoutes />}>
+					<Route path="dashboard" element={<DashboardPage />} />
+					<Route path="sell-car" element={<SellCarPage />} />
+				</Route>
 
+				{/* Add the 404 page */}
 				<Route path="*" element={<Error404Page />} />
 			</Routes>
 		</BrowserRouter>

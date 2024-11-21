@@ -52,7 +52,7 @@ const Input = ({
 
 	return (
 		<div
-			className={`flex w-full max-w-[300px] flex-col space-y-px ${wrapperClassName}`}
+			className={`flex max-w-[300px] flex-col space-y-px ${wrapperClassName ? wrapperClassName : "w-full"}`}
 		>
 			<div className="relative flex w-full items-center">
 				<input
