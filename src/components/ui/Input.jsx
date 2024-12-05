@@ -4,7 +4,13 @@ import { EyeIcon, ClosedEyeIcon } from "../icons";
 const DEFAULT_CLASS_NAME =
 	"w-full px-3 py-2 text-[13px] rounded bg-theme-input text-theme-text placeholder-theme-light-gray";
 
-const typesThatUseDefaultClassName = ["text", "email", "password", "date"];
+const typesThatUseDefaultClassName = [
+	"text",
+	"email",
+	"password",
+	"date",
+	"number",
+];
 
 const getDefaultClassName = (type) => {
 	if (typesThatUseDefaultClassName.includes(type)) {
@@ -22,7 +28,7 @@ const Input = ({
 	type = "text",
 	name = "",
 	formState,
-	setFormState,
+	setFormState = () => {},
 	value,
 	onChange,
 	...props
