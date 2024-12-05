@@ -1,13 +1,16 @@
 import { Button } from "../../ui";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks";
+import { Logo } from "../../common";
 
 const Header = ({ displayLoginButton = true }) => {
 	const { currentUser, logout } = useAuth();
 	const navigate = useNavigate();
 	return (
 		<header className="flex w-full items-center justify-between bg-theme-text px-8 py-3 text-white">
-			<Link to="/">Logo</Link>
+			<Link to="/">
+				<Logo />
+			</Link>
 
 			<div className="flex flex-row space-x-4">
 				{displayLoginButton && currentUser ? (
