@@ -7,8 +7,8 @@ const CarCard = ({ car }) => {
 
 	useEffect(() => {
 		const wishlist = LocalStorageUtils.getItem("wishlist") || [];
-		setIsInWishlist(wishlist.includes(car.id));
-	}, [car.id]);
+		setIsInWishlist(wishlist.includes(car?.id));
+	}, [car?.id]);
 
 	const toggleFavorite = () => {
 		const wishlist = LocalStorageUtils.getItem("wishlist") || [];
@@ -23,7 +23,7 @@ const CarCard = ({ car }) => {
 	};
 
 	return (
-		<div key={car.id} className="overflow-hidden rounded-xl bg-white">
+		<div className="overflow-hidden rounded-xl bg-white">
 			<div className="relative">
 				<img
 					src={car?.photos?.[0]}
@@ -48,16 +48,16 @@ const CarCard = ({ car }) => {
 						<p className="text-sm text-gray-500">{car?.category}</p>
 					</div>
 					<span className="font-semibold">
-						${car.price.toLocaleString()}
+						${car?.price?.toLocaleString()}
 					</span>
 				</div>
 				<div className="flex gap-2">
-					{car.isElectric && (
+					{car?.isElectric && (
 						<span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-600">
 							Full Electric
 						</span>
 					)}
-					{car.isBestSeller && (
+					{car?.isBestSeller && (
 						<span className="rounded bg-red-100 px-2 py-1 text-xs text-red-600">
 							Best Seller
 						</span>
