@@ -35,6 +35,7 @@ const LoginPage = () => {
 			console.log("Logged in successfully");
 
 			LocalStorageUtils.setItem("user", {
+				id: 1,
 				email: formState.email.value,
 				isVerified: true,
 			});
