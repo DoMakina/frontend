@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { BsBookmarkDash, BsBookmarkDashFill } from "react-icons/bs";
 import { LocalStorageUtils } from "../../../utils";
 import CarExampleImage from "../../../assets/images/car-example.png";
+import { useNavigate } from "react-router-dom";
 
 const CarCard = ({ car }) => {
+	const navigate = useNavigate();
+
 	const [isInWishlist, setIsInWishlist] = useState(false);
 
 	useEffect(() => {
@@ -30,6 +33,7 @@ const CarCard = ({ car }) => {
 					src={car?.photos?.[0] || CarExampleImage}
 					alt={car?.name}
 					className="h-72 w-full object-cover"
+					onClick={() => navigate(`/car/${car.id}`)}
 				/>
 				<button
 					onClick={toggleFavorite}
