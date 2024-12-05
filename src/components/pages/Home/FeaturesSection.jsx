@@ -25,8 +25,8 @@ export default function FeaturesSection() {
 	];
 
 	return (
-		<div className="container mx-auto px-4 py-12">
-			<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+		<div className="flex items-center justify-center px-6 py-12 lg:px-14">
+			<div className="grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-3">
 				{features.map((feature, index) => {
 					const Icon = feature.icon;
 					return (

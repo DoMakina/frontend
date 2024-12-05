@@ -2,12 +2,11 @@ export default function Footer() {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer className="bg-[#0B0F12] px-6 py-12 text-white">
-			<div className="mx-auto max-w-7xl">
-				<div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+		<footer className="bg-[#0B0F12] text-white">
+			<div className="flex w-full flex-row flex-wrap items-start justify-between gap-16 px-6 py-12 lg:gap-24 lg:px-20">
+				<div className="flex flex-row flex-wrap gap-16 lg:gap-24">
 					{/* Logo and Showroom Section */}
-
-					<div>
+					<div className="flex flex-col">
 						<h3 className="mb-4 font-medium text-gray-400">
 							SHOWROOM
 						</h3>
@@ -41,7 +40,7 @@ export default function Footer() {
 					</div>
 
 					{/* About Section */}
-					<div>
+					<div className="flex flex-col">
 						<h3 className="mb-4 font-medium text-gray-400">
 							ABOUT AUTO.HUNT
 						</h3>
@@ -75,7 +74,7 @@ export default function Footer() {
 					</div>
 
 					{/* Help Center Section */}
-					<div>
+					<div className="flex flex-col">
 						<h3 className="mb-4 font-medium text-gray-400">
 							HELP CENTER
 						</h3>
@@ -107,32 +106,31 @@ export default function Footer() {
 							</li>
 						</ul>
 					</div>
-
-					{/* Newsletter Section */}
-					<div>
-						<h3 className="mb-4 font-medium text-gray-400">
-							SUBSCRIBE TO OUR NEWSLETTER
-						</h3>
-						<p className="mb-4 text-sm">
-							Get the latest discounts, promotions & exclusive
-							benefits sent straight to your email.
-						</p>
-						<div className="flex gap-2">
-							<input
-								type="email"
-								placeholder="Type your email"
-								className="flex-1 rounded-lg bg-white px-4 py-2 text-black"
-							/>
-							<button className="rounded-lg bg-blue-500 px-6 py-2 transition-colors hover:bg-blue-600">
-								Send
-							</button>
-						</div>
+				</div>
+				{/* Newsletter Section */}
+				<div className="flex max-w-sm flex-col">
+					<h3 className="mb-4 font-medium text-gray-400">
+						SUBSCRIBE TO OUR NEWSLETTER
+					</h3>
+					<p className="mb-4 text-sm">
+						Get the latest discounts, promotions & exclusive
+						benefits sent straight to your email.
+					</p>
+					<div className="flex gap-2">
+						<input
+							type="email"
+							placeholder="Type your email"
+							className="flex-1 rounded-lg bg-white px-4 py-2 text-black"
+						/>
+						<button className="rounded-lg bg-blue-500 px-6 py-2 transition-colors hover:bg-blue-600">
+							Send
+						</button>
 					</div>
 				</div>
-				{/* Copyright */}
-				<div className="mt-12 border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-					©{currentYear} All rights reserved by DoMakina
-				</div>
+			</div>
+			{/* Copyright */}
+			<div className="mt-12 border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
+				©{currentYear} All rights reserved by DoMakina
 			</div>
 		</footer>
 	);
