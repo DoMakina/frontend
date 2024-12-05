@@ -5,6 +5,7 @@ import RightPanel from "../../components/pages/CarPage/RightPanel";
 import { MainLayout } from "../../components/layouts";
 import { useParams, Link } from "react-router-dom";
 import { LocalStorageUtils } from "../../utils";
+import carImage from "../../assets/images/car-example.png"
 
 export default function CarReview() {
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -12,6 +13,9 @@ export default function CarReview() {
 	const { id } = useParams();
 	const cars = LocalStorageUtils.getItem("cars") || [];
 	const car = cars.find((car) => car.id === id);
+	if(car && car.photos.length === 0) {
+		car.photos.push(carImage);
+	}
 
 	return (
 		<MainLayout>
