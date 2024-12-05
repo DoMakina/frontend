@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BsBookmarkDash, BsBookmarkDashFill } from "react-icons/bs";
 import { LocalStorageUtils } from "../../../utils";
+import CarExampleImage from "../../../assets/images/car-example.png";
 
 const CarCard = ({ car }) => {
 	const [isInWishlist, setIsInWishlist] = useState(false);
@@ -26,9 +27,9 @@ const CarCard = ({ car }) => {
 		<div className="overflow-hidden rounded-xl bg-white">
 			<div className="relative">
 				<img
-					src={car?.photos?.[0]}
+					src={car?.photos?.[0] || CarExampleImage}
 					alt={car?.name}
-					className="h-48 w-full object-cover"
+					className="h-72 w-full object-cover"
 				/>
 				<button
 					onClick={toggleFavorite}
@@ -45,7 +46,7 @@ const CarCard = ({ car }) => {
 				<div className="mb-2 flex items-start justify-between">
 					<div>
 						<h3 className="font-medium">{car?.name}</h3>
-						<p className="text-sm text-gray-500">{car?.category}</p>
+						<p className="text-sm text-gray-500">{car?.model}</p>
 					</div>
 					<span className="font-semibold">
 						${car?.price?.toLocaleString()}

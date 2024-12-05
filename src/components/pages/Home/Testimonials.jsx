@@ -10,11 +10,11 @@ export default function TestimonialSection() {
 	};
 
 	return (
-		<div className="w-full bg-white px-4 py-16 lg:px-14">
+		<div className="mt-20 w-full bg-white px-4 py-16 lg:px-14">
 			<div className="mx-auto max-w-7xl">
 				{/* Header */}
 				<div className="mb-12">
-					<h2 className="mb-4 text-4xl font-bold text-[#1a237e]">
+					<h2 className="mb-4 text-4xl font-bold text-theme-blue">
 						Client DoMakina Stories
 					</h2>
 					<p className="max-w-2xl text-gray-500">

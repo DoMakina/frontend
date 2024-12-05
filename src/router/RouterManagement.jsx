@@ -10,6 +10,7 @@ import {
 	VerifyEmailTokenPage,
 	SearchPage,
 	CarPage,
+	WishlistPage,
 } from "../pages/public";
 import { VerifyEmailPage } from "../pages/onboarding";
 import { DashboardPage, SellCarPage } from "../pages/private";
@@ -30,6 +31,7 @@ const RouterManagement = () => {
 					path="/verify-email/:token"
 					element={<VerifyEmailTokenPage />}
 				/>
+				<Route path="/wishlist" element={<WishlistPage />} />
 
 				{/* Add the auth routes */}
 				<Route path="/" element={<AuthRoutes />}>

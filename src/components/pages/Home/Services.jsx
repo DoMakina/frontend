@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function ServicesSection() {
 	return (
-		<div className="flex w-full items-center justify-center bg-blue-500 px-6 py-16 lg:px-14">
+		<div className="flex w-full items-center justify-center bg-theme-blue px-6 py-16 lg:px-14">
 			<div className="flex max-w-7xl flex-col gap-8 rounded-lg md:flex-row">
 				{/* Left Section (Text) */}
 				<div className="mb-12 text-white md:mb-0 md:w-2/3">

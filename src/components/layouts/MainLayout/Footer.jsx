@@ -167,7 +167,7 @@ export default function Footer() {
 								placeholder="Type your email"
 								className="flex-1 rounded-lg bg-white px-4 py-2 text-black"
 							/>
-							<button className="rounded-lg bg-blue-500 px-6 py-2 transition-colors hover:bg-blue-600">
+							<button className="rounded-lg bg-theme-blue px-6 py-2 transition-colors hover:bg-blue-600">
 								Send
 							</button>
 						</div>
