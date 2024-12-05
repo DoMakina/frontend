@@ -23,6 +23,7 @@ const RouterManagement = () => {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/search" element={<SearchPage />} />
 				<Route path="/car/:id" element={<CarPage />} />
+				<Route path="/wishlist" element={<WishlistPage />} />
 				<Route
 					path="/reset-password/:token"
 					element={<ResetPasswordPage />}
