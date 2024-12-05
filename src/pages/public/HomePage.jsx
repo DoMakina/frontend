@@ -1,10 +1,11 @@
 import { MainLayout } from "../../components/layouts";
-import { FeatureSection } from "../../components/pages/Home";
+import { FeatureSection, Testimonials } from "../../components/pages/Home";
 const HomePage = () => {
 	return (
 		<MainLayout>
-			<div className="flex flex-grow items-center justify-center">
-				<FeatureSection/>
+			<div className="flex flex-grow flex-col items-center justify-center">
+				<FeatureSection />
+				<Testimonials />
 			</div>
 		</MainLayout>
 	);
