@@ -46,7 +46,7 @@ const Header = () => {
 
 						{/* Dropdown Menu */}
 						{isDropdownOpen && (
-							<div className="absolute right-0 mt-2 w-40 rounded-md bg-white shadow-md">
+							<div className="absolute right-0 z-40 mt-2 w-40 rounded-md bg-white shadow-md">
 								<ul className="py-2 text-gray-700">
 									<li>
 										<Link
