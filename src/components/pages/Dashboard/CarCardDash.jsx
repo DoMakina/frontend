@@ -1,14 +1,7 @@
-import { LocalStorageUtils } from "../../../utils";
 import CarExampleImage from "../../../assets/images/car-example.png";
 import { MdRemoveCircleOutline } from "react-icons/md";
 
-const CarCard = ({ car }) => {
-	const removeCar = () => {
-		const cars = LocalStorageUtils.getItem("cars") || [];
-		const filteredCars = cars.filter((c) => c.id !== car.id);
-		console.log({ cars, filteredCars, car });
-		LocalStorageUtils.setItem("cars", filteredCars);
-	};
+const CarCard = ({ car, removeCar = () => {} }) => {
 	return (
 		<div className="overflow-hidden rounded-xl bg-white">
 			<div className="relative">
@@ -18,7 +11,7 @@ const CarCard = ({ car }) => {
 					className="h-72 w-full object-cover"
 				/>
 				<button
-					onClick={removeCar}
+					onClick={() => removeCar(car?.id)}
 					className="absolute right-4 top-4 rounded-full bg-white p-2"
 				>
 					<MdRemoveCircleOutline size={30} />

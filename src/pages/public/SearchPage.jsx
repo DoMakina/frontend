@@ -1,35 +1,84 @@
+import { useState, useEffect } from "react";
 import { MainLayout } from "../../components/layouts";
 import { CarCard } from "../../components/pages/Search";
-import { FiSearch } from "react-icons/fi";
-import { PiFadersHorizontalBold } from "react-icons/pi";
+import { FiSearch, FiFilter } from "react-icons/fi";
+import { LocalStorageUtils } from "../../utils";
 
 const SearchPage = () => {
-	const cars = [
-		{
-			id: 1,
-			name: "BMW M4 Coupe",
-			category: "Sedan",
-			price: 266500,
-			image: "/placeholder.svg?height=200&width=300",
-			hasTestDrive: true,
-		},
-		{
-			id: 2,
-			name: "BMW i4 - M Sport",
-			category: "Sedan",
-			price: 252720,
-			image: "/placeholder.svg?height=200&width=300",
-			isElectric: true,
-		},
-		{
-			id: 3,
-			name: "Toyota GR Supra",
-			category: "Sport Car",
-			price: 185450,
-			image: "/placeholder.svg?height=200&width=300",
-			isBestSeller: true,
-		},
-	];
+	const [cars, setCars] = useState([]);
+	const [filteredCars, setFilteredCars] = useState([]);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedBrands, setSelectedBrands] = useState([]);
+	const [sortOption, setSortOption] = useState("recommended");
+	const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+	useEffect(() => {
+		const storedCars = LocalStorageUtils.getItem("cars") || [];
+		setCars(storedCars);
+		setFilteredCars(storedCars);
+	}, []);
+
+	useEffect(() => {
+		let result = [...cars]; // Create a new array to avoid mutating the original
+
+		if (searchTerm) {
+			result = result.filter(
+				(car) =>
+					car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					car.brand
+						.toLowerCase()
+						.includes(searchTerm.toLowerCase()) ||
+					car.model.toLowerCase().includes(searchTerm.toLowerCase()),
+			);
+		}
+
+		if (selectedBrands.length > 0) {
+			result = result.filter((car) => selectedBrands.includes(car.brand));
+		}
+
+		switch (sortOption) {
+			case "price_low_high":
+				result.sort((a, b) => a.price - b.price);
+				break;
+			case "price_high_low":
+				result.sort((a, b) => b.price - a.price);
+				break;
+			default:
+				break;
+		}
+
+		setFilteredCars(result);
+	}, [cars, searchTerm, selectedBrands, sortOption]); // Add sortOption here
+
+	const handleSearchChange = (e) => {
+		setSearchTerm(e.target.value);
+	};
+
+	const handleBrandChange = (brand) => {
+		setSelectedBrands((prev) =>
+			prev.includes(brand)
+				? prev.filter((b) => b !== brand)
+				: [...prev, brand],
+		);
+	};
+
+	const handleSortChange = (e) => {
+		const newSortOption = e.target.value;
+		setSortOption((prevSortOption) => {
+			if (prevSortOption !== newSortOption) {
+				return newSortOption;
+			}
+			return prevSortOption;
+		});
+	};
+
+	const resetFilters = () => {
+		setSearchTerm("");
+		setSelectedBrands([]);
+		setSortOption("recommended");
+	};
+
+	const availableBrands = [...new Set(cars.map((car) => car.brand))];
 
 	return (
 		<MainLayout
@@ -37,37 +86,62 @@ const SearchPage = () => {
 				paddingVertical: false,
 			}}
 		>
-			<div className="w-full space-y-8 px-4 py-6">
+			<div className="w-full space-y-4 px-4 py-6 md:space-y-8">
 				{/* Header */}
-				<div className="flex items-center justify-end gap-4">
-					<div className="flex flex-1 items-center justify-center">
-						<div className="relative max-w-2xl flex-1">
-							<FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-							<input
-								type="text"
-								placeholder="Find car here..."
-								className="w-full rounded-full border border-gray-200 py-2 pl-10 pr-4"
-							/>
-						</div>
+				<div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+					<div className="relative w-full max-w-2xl">
+						<FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+						<input
+							type="text"
+							placeholder="Find car here..."
+							className="w-full rounded-full border border-gray-200 py-2 pl-10 pr-4"
+							value={searchTerm}
+							onChange={handleSearchChange}
+						/>
 					</div>
-					<button className="rounded-full border border-gray-200 bg-white p-2">
-						<PiFadersHorizontalBold className="h-5 w-5 text-gray-600" />
-					</button>
-					<select className="rounded-full border border-gray-200 bg-white p-2 text-sm">
-						<option>Sort by: Recommended</option>
-						<option>Price: Low to High</option>
-						<option>Price: High to Low</option>
-					</select>
+
+					<div className="flex w-full items-center justify-between gap-4 md:w-auto">
+						<select
+							className="rounded-full border border-gray-200 bg-white p-2 text-sm"
+							value={sortOption}
+							onChange={handleSortChange}
+						>
+							<option value="recommended">
+								Sort by: Recommended
+							</option>
+							<option value="price_low_high">
+								Price: Low to High
+							</option>
+							<option value="price_high_low">
+								Price: High to Low
+							</option>
+						</select>
+
+						<button
+							className="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-2 text-sm md:hidden"
+							onClick={() => setIsFilterOpen(!isFilterOpen)}
+						>
+							<FiFilter />
+							Filter
+						</button>
+					</div>
 				</div>
 
 				{/* Main Content */}
-				<div className="flex gap-8">
+				<div className="flex flex-col gap-8 md:flex-row">
 					{/* Sidebar */}
-					<div className="w-64 flex-shrink-0">
-						<div className="rounded-xl bg-white p-4">
+					<div
+						className={`w-full md:w-64 md:flex-shrink-0 ${
+							isFilterOpen ? "block" : "hidden md:block"
+						}`}
+					>
+						<div className="rounded-xl bg-white p-4 shadow-md">
 							<div className="mb-4 flex items-center justify-between">
 								<h3 className="font-medium">Filter</h3>
-								<button className="text-sm text-blue-600">
+								<button
+									className="text-sm text-blue-600"
+									onClick={resetFilters}
+								>
 									Reset
 								</button>
 							</div>
@@ -78,12 +152,7 @@ const SearchPage = () => {
 										Brand
 									</h4>
 									<div className="space-y-2">
-										{[
-											"All Brand",
-											"BMW",
-											"Mercedes Benz",
-											"Tesla",
-										].map((brand) => (
+										{availableBrands.map((brand) => (
 											<label
 												key={brand}
 												className="flex items-center gap-2"
@@ -91,6 +160,12 @@ const SearchPage = () => {
 												<input
 													type="checkbox"
 													className="rounded"
+													checked={selectedBrands.includes(
+														brand,
+													)}
+													onChange={() =>
+														handleBrandChange(brand)
+													}
 												/>
 												<span className="text-sm">
 													{brand}
@@ -105,19 +180,8 @@ const SearchPage = () => {
 
 					{/* Car Grid */}
 					<div className="flex-1">
-						<div className="mb-4 flex items-center gap-2">
-							<div className="flex items-center gap-1 rounded-full bg-blue-100 px-4 py-1 text-sm text-blue-600">
-								Free Test Drive
-								<button className="ml-1">&times;</button>
-							</div>
-							<div className="flex items-center gap-1 rounded-full bg-gray-100 px-4 py-1 text-sm text-gray-600">
-								$200,000 - $300,000
-								<button className="ml-1">&times;</button>
-							</div>
-						</div>
-
-						<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-							{cars.map((car) => (
+						<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+							{filteredCars.map((car) => (
 								<CarCard key={car.id} car={car} />
 							))}
 						</div>

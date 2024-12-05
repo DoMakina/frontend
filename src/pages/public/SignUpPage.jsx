@@ -47,9 +47,6 @@ const SignUpPage = () => {
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
-
-		console.log(formState);
-
 		resetForm();
 	};
 

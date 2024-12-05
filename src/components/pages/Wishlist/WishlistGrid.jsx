@@ -1,12 +1,23 @@
 import { CarCard } from "../Search";
 import { LocalStorageUtils } from "../../../utils";
+import { useState } from "react";
 
 export default function WishlistGrid() {
-	const wishlistCars = LocalStorageUtils.getItem("wishlist") || [];
 	const cars = LocalStorageUtils.getItem("cars") || [];
+
+	const [wishlistCars, setWishlistCars] = useState(
+		LocalStorageUtils.getItem("wishlist") || [],
+	);
+
 	const wishlistCarsData = cars.filter((car) =>
 		wishlistCars.includes(car.id),
 	);
+
+	const removeWishlistCar = (carId) => {
+		const newWishlistCars = wishlistCars.filter((id) => id !== carId);
+		LocalStorageUtils.setItem("wishlist", newWishlistCars);
+		setWishlistCars(newWishlistCars);
+	};
 
 	return wishlistCars.length === 0 ? (
 		<div className="flex w-full items-center justify-center px-6 lg:px-14">
@@ -22,7 +33,11 @@ export default function WishlistGrid() {
 				{/* Wishlist Car Cards Grid */}
 				<div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
 					{wishlistCarsData.map((car, index) => (
-						<CarCard key={index} car={car} />
+						<CarCard
+							key={index}
+							car={car}
+							removeWishlistCar={removeWishlistCar}
+						/>
 					))}
 				</div>
 			</div>

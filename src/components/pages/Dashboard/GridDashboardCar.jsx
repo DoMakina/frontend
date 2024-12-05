@@ -1,12 +1,19 @@
 import { LocalStorageUtils } from "../../../utils";
 import { useAuth } from "../../../hooks";
 import { CarCardDash } from "../Dashboard";
+import { useState } from "react";
 
 export default function GridDashboardCar() {
 	const { currentUser } = useAuth();
-	const cars = LocalStorageUtils.getItem("cars") || [];
+	const [cars, setCars] = useState(LocalStorageUtils.getItem("cars") || []);
+
 	const filteredCars = cars.filter((car) => car.userId === currentUser.id);
-	console.log({ cars, filteredCars, currentUser });
+
+	const removeCar = async (carId) => {
+		const newCars = cars.filter((car) => car.id !== carId);
+		LocalStorageUtils.setItem("cars", newCars);
+		setCars(newCars);
+	};
 
 	return cars.length === 0 ? (
 		<div className="flex w-full items-center justify-center px-6 lg:px-14">
@@ -22,7 +29,11 @@ export default function GridDashboardCar() {
 				{/* Car Cards Grid */}
 				<div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
 					{filteredCars.map((car, index) => (
-						<CarCardDash key={index} car={car} />
+						<CarCardDash
+							key={index}
+							car={car}
+							removeCar={removeCar}
+						/>
 					))}
 				</div>
 			</div>

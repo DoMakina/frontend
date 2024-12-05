@@ -55,12 +55,12 @@ const SellCarPage = () => {
 			price: parseFloat(formState.price.value),
 			description: formState.description.value,
 			photos: formState.photos.value,
+			phoneNr: "+1234567890",
 		};
 
 		const existingCars = LocalStorageUtils.getItem("cars") || [];
 		LocalStorageUtils.setItem("cars", [...existingCars, newCar]);
 
-		console.log("New car added:", newCar);
 		resetForm();
 	};
 

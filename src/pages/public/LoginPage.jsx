@@ -32,8 +32,6 @@ const LoginPage = () => {
 			formState.email.value === "test@test.com" &&
 			formState.password.value === "password"
 		) {
-			console.log("Logged in successfully");
-
 			LocalStorageUtils.setItem("user", {
 				id: 1,
 				email: formState.email.value,
@@ -41,6 +39,7 @@ const LoginPage = () => {
 			});
 
 			fetchUser();
+			console.log("Logged in successfully");
 		} else {
 			toast.error("Invalid email or password");
 		}
