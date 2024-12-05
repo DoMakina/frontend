@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function ServicesSection() {
 	return (
 		<div className="w-full bg-blue-500 px-4 py-16 sm:px-6 lg:px-8">
@@ -29,9 +31,10 @@ export default function ServicesSection() {
 								</span>
 							</div>
 							<p className="mb-4 text-gray-500">
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Dui viverra nisi mauris netus
-								vitae natoque dictum scelerisque accumsan.
+								Buy your car from DoMakina and explore a wide
+								selection of new and used vehicles. Post your
+								preferred choice, and we will help you find the
+								best deals without the hassle.
 							</p>
 							<div className="flex justify-end">
 								<svg
@@ -58,14 +61,18 @@ export default function ServicesSection() {
 								<h3 className="text-2xl font-semibold text-gray-900">
 									Sell Car
 								</h3>
-								<span className="inline-block rounded-full bg-blue-100 px-4 py-1 text-sm text-blue-500">
+								<Link
+									to="/sign-up"
+									className="inline-block rounded-full bg-blue-100 px-4 py-1 text-sm text-blue-500"
+								>
 									Register Now
-								</span>
+								</Link>
 							</div>
 							<p className="mb-4 text-gray-500">
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Dui viverra nisi mauris netus
-								vitae natoque dictum scelerisque accumsan.
+								Sell your car on DoMakina and reach a wide
+								audience of buyers. Post your listing easily,
+								and let us help you get the best price without
+								the hassle.
 							</p>
 							<div className="flex justify-end">
 								<svg
