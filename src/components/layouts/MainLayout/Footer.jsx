@@ -1,4 +1,6 @@
 export default function Footer() {
+	const currentYear = new Date().getFullYear();
+
 	return (
 		<footer className="bg-[#0B0F12] px-6 py-12 text-white">
 			<div className="mx-auto max-w-7xl">
@@ -66,7 +68,7 @@ export default function Footer() {
 							</li>
 							<li>
 								<a href="#" className="hover:text-theme-blue">
-									Auto.Hunt Academy
+									DoMakina Academy
 								</a>
 							</li>
 						</ul>
@@ -129,8 +131,7 @@ export default function Footer() {
 				</div>
 				{/* Copyright */}
 				<div className="mt-12 border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-					©2022 All rights reserved by Auto.Hunt Look Website by
-					Alvin Elian
+					©{currentYear} All rights reserved by DoMakina
 				</div>
 			</div>
 		</footer>
