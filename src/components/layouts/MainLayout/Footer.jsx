@@ -1,112 +1,138 @@
-function Footer() {
-	const currentYear = new Date().getFullYear();
-  
+export default function Footer() {
 	return (
-	  <footer>
-		{/* Footer Main Content */}
-		<div className="bg-black text-white text-center p-2  inset-x-0 ">
-		  <div className="flex flex-row justify-around">
-			<div>
-			  <img src="/path/to/logo.png" alt="Logo" />
+		<footer className="bg-[#0B0F12] px-6 py-12 text-white">
+			<div className="mx-auto max-w-7xl">
+				<div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+					{/* Logo and Showroom Section */}
+
+					<div>
+						<h3 className="mb-4 font-medium text-gray-400">
+							SHOWROOM
+						</h3>
+						<ul className="space-y-3">
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Rent car
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									New cars for sale
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									User cars for sale
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Sell your car
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Login as a Dealer
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					{/* About Section */}
+					<div>
+						<h3 className="mb-4 font-medium text-gray-400">
+							ABOUT AUTO.HUNT
+						</h3>
+						<ul className="space-y-3">
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									About Us
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									How it works
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Testimony
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Career
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Auto.Hunt Academy
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					{/* Help Center Section */}
+					<div>
+						<h3 className="mb-4 font-medium text-gray-400">
+							HELP CENTER
+						</h3>
+						<ul className="space-y-3">
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									FAQ
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Contact Us
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Office Location
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Privacy & Policy
+								</a>
+							</li>
+							<li>
+								<a href="#" className="hover:text-theme-blue">
+									Term & Conditions
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					{/* Newsletter Section */}
+					<div>
+						<h3 className="mb-4 font-medium text-gray-400">
+							SUBSCRIBE TO OUR NEWSLETTER
+						</h3>
+						<p className="mb-4 text-sm">
+							Get the latest discounts, promotions & exclusive
+							benefits sent straight to your email.
+						</p>
+						<div className="flex gap-2">
+							<input
+								type="email"
+								placeholder="Type your email"
+								className="flex-1 rounded-lg bg-white px-4 py-2 text-black"
+							/>
+							<button className="rounded-lg bg-blue-500 px-6 py-2 transition-colors hover:bg-blue-600">
+								Send
+							</button>
+						</div>
+					</div>
+				</div>
+				{/* Copyright */}
+				<div className="mt-12 border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
+					©2022 All rights reserved by Auto.Hunt Look Website by
+					Alvin Elian
+				</div>
 			</div>
-			<div>
-			  <h3 className="text-lg font-bold">SHOWROOM</h3>
-			  <p>
-				<a href="/new-cars" className="text-white hover:text-gray-400">
-				  New cars for sale
-				</a>
-			  </p>
-			  <p>
-				<a href="/used-cars" className="text-white hover:text-gray-400">
-				  Used cars for sale
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/sell-your-car"
-				  className="text-white hover:text-gray-400"
-				>
-				  Sell your car
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/dealer-login"
-				  className="text-white hover:text-gray-400"
-				>
-				  Log In as a Dealer
-				</a>
-			  </p>
-			</div>
-			<div>
-			  <h3 className="text-lg font-bold">ABOUT DOMAKINA</h3>
-			  <p>
-				<a href="/about" className="text-white hover:text-gray-400">
-				  About us
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/how-it-works"
-				  className="text-white hover:text-gray-400"
-				>
-				  How it works
-				</a>
-			  </p>
-			  <p>
-				<a href="/careers" className="text-white hover:text-gray-400">
-				  Careers
-				</a>
-			  </p>
-			</div>
-			<div>
-			  <h3 className="text-lg font-bold">HELP CENTER</h3>
-			  <p>
-				<a href="/faqs" className="text-white hover:text-gray-400">
-				  FAQs
-				</a>
-			  </p>
-			  <p>
-				<a href="/contact-us" className="text-white hover:text-gray-400">
-				  Contact Us
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/office-location"
-				  className="text-white hover:text-gray-400"
-				>
-				  Office location
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/privacy-policy"
-				  className="text-white hover:text-gray-400"
-				>
-				  Privacy & Policy
-				</a>
-			  </p>
-			  <p>
-				<a
-				  href="/terms-conditions"
-				  className="text-white hover:text-gray-400"
-				>
-				  Terms & Conditions
-				</a>
-			  </p>
-			</div>
-		  </div>
-		</div>
-  
-		{/* Footer Bottom */}
-		<div className="bg-black text-white text-center p-2 sticky left-0 bottom-0 w-full border-t border-white">
-		  <div>
-		  <p>© {currentYear} DoMakina. All rights reserved</p>        </div>
-		</div>
-	  </footer>
+		</footer>
 	);
-  }
-  
-  export default Footer;
-  
+}
