@@ -4,8 +4,8 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 export default function HeroSection() {
 	return (
-		<div className="bg-theme-text px-6 py-11 lg:px-14 lg:pb-24">
-			<div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+		<div className="flex w-full items-center justify-center bg-theme-text px-6 py-11 lg:px-14 lg:pb-24">
+			<div className="flex w-full max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 				{/* Left Content */}
 				<div className="flex-1">
 					<h1 className="mb-6 text-4xl font-bold leading-tight text-white lg:text-5xl">
