@@ -1,41 +1,69 @@
-import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BsBookmarkDash, BsBookmarkDashFill } from "react-icons/bs";
+import { LocalStorageUtils } from "../../../utils";
 
 const CarCard = ({ car }) => {
-	const [isLiked, setIsLiked] = useState(false);
+	const [isInWishlist, setIsInWishlist] = useState(false);
 
-	const toggleLike = () => {
-		console.log("Heart clicked");
-		setIsLiked((prev) => !prev);
-		// or setIsLiked(!isLiked);
+	useEffect(() => {
+		const wishlist = LocalStorageUtils.getItem("wishlist") || [];
+		setIsInWishlist(wishlist.includes(car.id));
+	}, [car.id]);
+
+	const toggleFavorite = () => {
+		const wishlist = LocalStorageUtils.getItem("wishlist") || [];
+		let newWishlist;
+		if (isInWishlist) {
+			newWishlist = wishlist.filter((id) => id !== car.id);
+		} else {
+			newWishlist = [...wishlist, car.id];
+		}
+		LocalStorageUtils.setItem("wishlist", newWishlist);
+		setIsInWishlist(!isInWishlist);
 	};
 
 	return (
-		<div className="relative">
-			<div className="flex w-80 flex-col space-y-3 rounded-lg bg-white p-4 shadow-md">
-				<div className="flex flex-col space-y-1">
-					<h3 className="text-md font-semibold">{car?.name}</h3>
-					<p className="text-sm text-stone-400">{car?.type}</p>
-				</div>
+		<div key={car.id} className="overflow-hidden rounded-xl bg-white">
+			<div className="relative">
 				<img
 					src={car?.photos?.[0]}
-					alt="car"
-					className="h-48 w-full rounded-lg object-cover"
+					alt={car?.name}
+					className="h-48 w-full object-cover"
 				/>
-				<button className="flex self-end text-lg font-semibold">
-					{car?.price}
+				<button
+					onClick={toggleFavorite}
+					className="absolute right-4 top-4 rounded-full bg-white p-2"
+				>
+					{isInWishlist ? (
+						<BsBookmarkDashFill size={20} />
+					) : (
+						<BsBookmarkDash size={20} />
+					)}
 				</button>
 			</div>
-			<button
-				onClick={toggleLike}
-				className="absolute right-4 top-4 rounded-lg bg-stone-300 p-1.5"
-			>
-				{isLiked ? (
-					<IoHeartSharp size={20} />
-				) : (
-					<IoHeartOutline size={20} />
-				)}
-			</button>
+			<div className="p-4">
+				<div className="mb-2 flex items-start justify-between">
+					<div>
+						<h3 className="font-medium">{car?.name}</h3>
+						<p className="text-sm text-gray-500">{car?.category}</p>
+					</div>
+					<span className="font-semibold">
+						${car.price.toLocaleString()}
+					</span>
+				</div>
+				<div className="flex gap-2">
+					{car.isElectric && (
+						<span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-600">
+							Full Electric
+						</span>
+					)}
+					{car.isBestSeller && (
+						<span className="rounded bg-red-100 px-2 py-1 text-xs text-red-600">
+							Best Seller
+						</span>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 };

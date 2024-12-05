@@ -1,6 +1,7 @@
 import { MainLayout } from "../../components/layouts";
 import { Button, Input } from "../../components/ui";
 import { useState } from "react";
+import { CarBrands } from "../../data";
 
 const initialState = {
 	name: {
@@ -8,7 +9,7 @@ const initialState = {
 		error: "",
 	},
 	brand: {
-		value: "",
+		value: [],
 		error: "",
 	},
 	model: {
@@ -66,15 +67,6 @@ const SellCarPage = () => {
 
 							<Input
 								type="text"
-								placeholder="Brand"
-								name="brand"
-								formState={formState}
-								setFormState={setFormState}
-								required
-							/>
-
-							<Input
-								type="text"
 								placeholder="Model"
 								name="model"
 								formState={formState}
@@ -83,12 +75,13 @@ const SellCarPage = () => {
 							/>
 
 							<Input
-								type="text"
+								type="number"
 								placeholder="Year"
 								name="year"
 								formState={formState}
 								setFormState={setFormState}
 								required
+								min
 							/>
 
 							<Input

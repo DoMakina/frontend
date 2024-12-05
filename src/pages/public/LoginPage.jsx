@@ -2,6 +2,9 @@ import { Input, Button } from "../../components/ui";
 import { MainLayout } from "../../components/layouts";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { LocalStorageUtils } from "../../utils";
+import { useAuth } from "../../hooks";
+import toast from "react-hot-toast";
 
 const initialState = {
 	email: {
@@ -15,6 +18,7 @@ const initialState = {
 };
 
 const LoginPage = () => {
+	const { fetchUser } = useAuth();
 	const [formState, setFormState] = useState(initialState);
 
 	const resetForm = () => {
@@ -23,6 +27,22 @@ const LoginPage = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+
+		if (
+			formState.email.value === "test@test.com" &&
+			formState.password.value === "password"
+		) {
+			console.log("Logged in successfully");
+
+			LocalStorageUtils.setItem("user", {
+				email: formState.email.value,
+				isVerified: true,
+			});
+
+			fetchUser();
+		} else {
+			toast.error("Invalid email or password");
+		}
 
 		resetForm();
 	};
@@ -37,7 +57,7 @@ const LoginPage = () => {
 					>
 						<div className="flex flex-col items-center justify-center space-y-1">
 							<h1 className="text-[26px]">Welcome back!</h1>
-							<p className="text-theme-light-gray text-[13px]">
+							<p className="text-[13px] text-theme-light-gray">
 								Please log in with your details.
 							</p>
 						</div>
@@ -75,7 +95,7 @@ const LoginPage = () => {
 								Log In
 							</Button>
 							<div className="flex flex-row space-x-2">
-								<span className="text-theme-light-gray text-[14px]">
+								<span className="text-[14px] text-theme-light-gray">
 									Don&apos;t have an account?
 								</span>
 								<Link
