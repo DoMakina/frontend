@@ -4,7 +4,7 @@ import { LocalStorageUtils } from "../../../utils";
 import CarExampleImage from "../../../assets/images/car-example.png";
 import { useNavigate } from "react-router-dom";
 
-const CarCard = ({ car }) => {
+const CarCard = ({ car, removeWishlistCar = () => {} }) => {
 	const navigate = useNavigate();
 
 	const [isInWishlist, setIsInWishlist] = useState(false);
@@ -19,6 +19,7 @@ const CarCard = ({ car }) => {
 		let newWishlist;
 		if (isInWishlist) {
 			newWishlist = wishlist.filter((id) => id !== car.id);
+			removeWishlistCar(car.id);
 		} else {
 			newWishlist = [...wishlist, car.id];
 		}

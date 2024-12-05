@@ -19,7 +19,6 @@ const ForgotPasswordPage = () => {
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		console.log(formState);
 		resetForm();
 	};
 
@@ -33,7 +32,7 @@ const ForgotPasswordPage = () => {
 					>
 						<div className="flex flex-col items-center justify-center space-y-1">
 							<h1 className="text-[26px]">Reset your password</h1>
-							<p className="text-theme-light-gray text-center text-[13px]">
+							<p className="text-center text-[13px] text-theme-light-gray">
 								Enter your email address and we will send you a
 								link to reset your password.
 							</p>
