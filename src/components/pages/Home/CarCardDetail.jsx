@@ -1,4 +1,5 @@
 import { GiSteeringWheel } from "react-icons/gi";
+import BMW from "../../../assets/images/BMW.jpeg";
 
 export default function CarDetailsCard() {
 	return (
@@ -17,7 +18,7 @@ export default function CarDetailsCard() {
 
 			<div className="mb-4">
 				<img
-					src="https://th.bing.com/th/id/OIP.xt17fGATSm__JgpYfH-7AwHaEK?w=291&h=181&c=7&r=0&o=5&dpr=1.3&pid=1.7   height=150&width=250"
+					src={BMW}
 					alt="BMW i4 M Sport"
 					className="w-full rounded-lg"
 				/>

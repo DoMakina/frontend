@@ -1,6 +1,8 @@
 import CarDetailsCard from "./CarCardDetail.jsx";
 import { FaStar } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import Benz from "../../../assets/images/Benz.jpeg";
+
 
 export default function HeroSection() {
 	return (
@@ -36,8 +38,7 @@ export default function HeroSection() {
 				{/* Center Image */}
 				<div className="relative max-w-md flex-1 transition-all duration-150 hover:scale-[1.01] lg:max-w-lg">
 					<img
-						src="https://th.bing.com/th/id/R.55d1ecf0c3f4361380239c94beb4ed83?rik=jcQLRxSwTTm86w&riu=http%3a%2f%2fperformancedrive.com.au%2fwp-content%2fuploads%2f2017%2f11%2f2018-Mercedes-Benz-CLS.jpg&ehk=Qnv4rMybLHdvRwGzot2Y8HAlXyI2SdmK5a6f%2fbskPZY%3d&risl=&pid=ImgRaw&r=0"
-						alt="Featured Car"
+						src={Benz}
 						className="h-[600px] w-full rounded-lg object-cover"
 					/>
 					<button className="absolute bottom-0 left-0 w-full rounded-bl-lg bg-black/50 px-6 py-3 text-white backdrop-blur-sm hover:bg-theme-blue">
