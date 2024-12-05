@@ -8,8 +8,12 @@ const Header = ({ displayLoginButton = true }) => {
 	const navigate = useNavigate();
 	return (
 		<header className="flex w-full items-center justify-between bg-theme-text px-8 py-3 text-white">
-			<Link to="/">
+			<Link
+				className="flex flex-row items-center justify-center space-x-3"
+				to="/"
+			>
 				<Logo />
+				<h1>DoMakina</h1>
 			</Link>
 
 			<div className="flex flex-row space-x-4">

@@ -1,6 +1,7 @@
 import { FaChevronRight } from "react-icons/fa";
 import { CarCard } from "../Search";
 import { LocalStorageUtils } from "../../../utils";
+import { Link } from "react-router-dom";
 
 export default function CarGrid() {
 	const cars = LocalStorageUtils.getItem("cars") || [];
@@ -18,9 +19,12 @@ export default function CarGrid() {
 			<div className="flex w-full max-w-7xl flex-col items-center justify-center">
 				{/* Advanced Search Button */}
 				<div className="mb-6 flex self-end">
-					<button className="flex items-center gap-2 rounded bg-blue-100 px-4 py-2 font-semibold text-blue-700 hover:bg-blue-500 hover:text-white">
+					<Link
+						className="flex items-center gap-2 rounded bg-blue-100 px-4 py-2 font-semibold text-blue-700 duration-150 hover:bg-blue-500 hover:text-white"
+						to="/search"
+					>
 						Advanced Search <FaChevronRight />
-					</button>
+					</Link>
 				</div>
 
 				{/* Car Cards Grid */}
