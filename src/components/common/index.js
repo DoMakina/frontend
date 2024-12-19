@@ -1,2 +1,2 @@
-export { default as LoadingIndicator } from "./LoadingIndicator.jsx";
-export { default as Logo } from "./Logo.jsx";
+export { default as LoadingIndicator } from "./LoadingIndicator";
+export { default as Logo } from "./Logo";

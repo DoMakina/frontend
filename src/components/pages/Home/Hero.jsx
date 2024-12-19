@@ -1,8 +1,7 @@
-import CarDetailsCard from "./CarCardDetail.jsx";
+import CarDetailsCard from "./CarCardDetail";
 import { FaStar } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import Benz from "../../../assets/images/Benz.jpeg";
-
 
 export default function HeroSection() {
 	return (
