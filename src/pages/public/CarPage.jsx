@@ -1,21 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LeftSideBar from "../../components/pages/CarPage/LeftSideBar";
 import MainContent from "../../components/pages/CarPage/MainContent";
 import RightPanel from "../../components/pages/CarPage/RightPanel";
 import { MainLayout } from "../../components/layouts";
 import { useParams, Link } from "react-router-dom";
-import { LocalStorageUtils } from "../../utils";
-import carImage from "../../assets/images/car-example.png"
+// import { LocalStorageUtils } from "../../utils";
+// import carImage from "../../assets/images/car-example.png";
+import { getCar } from "../../api/public";
 
-export default function CarReview() {
+export default function CarPage() {
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	const { id } = useParams();
-	const cars = LocalStorageUtils.getItem("cars") || [];
-	const car = cars.find((car) => car.id === id);
-	if(car && car.photos.length === 0) {
-		car.photos.push(carImage);
-	}
+	const [car, setCar] = useState(null);
+
+	// const cars = LocalStorageUtils.getItem("cars") || [];
+	// const car = cars.find((car) => car.id === id);
+	// if (car && car.photos.length === 0) {
+	// 	car.photos.push(carImage);
+	// }
+
+	useEffect(() => {
+		getCar(id)
+			.then((response) => {
+				console.log(response.data);
+				setCar(response.data);
+			})
+			.catch(() => {
+				console.log("Error fetching car");
+			});
+	}, [id]);
 
 	return (
 		<MainLayout>

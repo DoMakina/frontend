@@ -1,10 +1,10 @@
-import { MainLayout } from "../../components/layouts";
-import { Button, Input, TextArea } from "../../components/ui";
+import { MainLayout } from "../../../components/layouts";
+import { Button, Input, TextArea } from "../../../components/ui";
 import { useState } from "react";
-import { CarBrands } from "../../data";
-import { useAuth } from "../../hooks";
+import { CarBrands } from "../../../data";
+import { useAuth } from "../../../hooks";
 import { v4 as uuidv4 } from "uuid";
-import { LocalStorageUtils } from "../../utils";
+import { LocalStorageUtils } from "../../../utils";
 
 const initialState = {
 	name: { value: "", error: "" },

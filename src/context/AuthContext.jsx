@@ -1,42 +1,31 @@
 import { createContext, useState, useEffect } from "react";
-// import { getUser, logout } from "../api/auth";
+import { getUser, logout } from "../api/auth";
 import { LoadingIndicator } from "../components/common";
-import { LocalStorageUtils } from "../utils";
+import { useApi } from "../hooks";
+
 const AuthContext = createContext();
 
-// not logged in currentUser = null
-// logged in but not verified currentUser = { email: "email", isVerified: false }
-// logged in and verified currentUser = { email: "email", isVerified: true }
-
 export const AuthProvider = ({ children }) => {
+	const { handleApiCall: handleLogoutApiCall } = useApi(logout);
+
 	const [currentUser, setCurrentUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	const fetchUser = async () => {
-		// try {
-		// 	const response = await getUser();
-		// 	if (response.data) {
-		// 		setCurrentUser(response.data);
-		// 	} else {
-		// 		setCurrentUser(null);
-		// 	}
-		// } catch {
-		// 	setCurrentUser(null);
-		// }
-
-		const user = LocalStorageUtils.getItem("user");
-		setCurrentUser(user);
+		try {
+			const response = await getUser();
+			if (response.data) {
+				setCurrentUser(response.data);
+			} else {
+				setCurrentUser(null);
+			}
+		} catch {
+			setCurrentUser(null);
+		}
 	};
 
 	const handleLogout = async () => {
-		// try {
-		// 	await logout();
-		// } catch {
-		// 	console.error("Failed to logout");
-		// }
-		// setCurrentUser(null);
-
-		LocalStorageUtils.removeItem("user");
+		await handleLogoutApiCall();
 		setCurrentUser(null);
 	};
 

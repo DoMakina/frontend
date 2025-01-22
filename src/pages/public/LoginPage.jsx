@@ -2,9 +2,8 @@ import { Input, Button } from "../../components/ui";
 import { MainLayout } from "../../components/layouts";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LocalStorageUtils } from "../../utils";
-import { useAuth } from "../../hooks";
-import toast from "react-hot-toast";
+import { useApi, useAuth } from "../../hooks";
+import { login } from "../../api/auth";
 
 const initialState = {
 	email: {
@@ -20,31 +19,44 @@ const initialState = {
 const LoginPage = () => {
 	const { fetchUser } = useAuth();
 	const [formState, setFormState] = useState(initialState);
+	const { handleApiCall: loginApiCall, loading } = useApi(login, {
+		onValidationError: (error) => {
+			setFormState((prev) => {
+				const newState = { ...prev };
+				error.forEach((err) => {
+					newState[err.path].error = err.msg;
+				});
 
-	const resetForm = () => {
-		setFormState(initialState);
+				return newState;
+			});
+		},
+	});
+
+	const clearErrors = () => {
+		setFormState((prev) => {
+			const newState = { ...prev };
+			Object.keys(newState).forEach((key) => {
+				newState[key].error = "";
+			});
+
+			return newState;
+		});
 	};
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+		if (loading) return;
 
-		if (
-			formState.email.value === "test@test.com" &&
-			formState.password.value === "password"
-		) {
-			LocalStorageUtils.setItem("user", {
-				id: 1,
-				email: formState.email.value,
-				isVerified: true,
-			});
+		clearErrors();
 
-			fetchUser();
-			console.log("Logged in successfully");
-		} else {
-			toast.error("Invalid email or password");
-		}
+		const { email, password } = formState;
 
-		resetForm();
+		const data = await loginApiCall({
+			email: email.value,
+			password: password.value,
+		});
+
+		if (data) await fetchUser();
 	};
 
 	return (
@@ -91,6 +103,7 @@ const LoginPage = () => {
 								type="submit"
 								className="whitespace-nowrap"
 								extendClassName
+								loading={loading}
 							>
 								Log In
 							</Button>
