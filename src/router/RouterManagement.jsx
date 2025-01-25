@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthRoutes, OnboardingRoutes, PrivateRoutes } from "./guards";
+import { AuthRoutes, OnboardingRoutes, UserRoutes } from "./guards";
 import {
 	Error404Page,
 	HomePage,
@@ -12,8 +12,12 @@ import {
 	CarPage,
 	WishlistPage,
 } from "../pages/public";
+import { DashboardPage, SellCarPage } from "../pages/private/user";
+import { AdminDashboardPage } from "../pages/private/admin";
+import { CreateAdminPage } from "../pages/private/super-admin";
 import { VerifyEmailPage } from "../pages/onboarding";
-import { DashboardPage, SellCarPage } from "../pages/private";
+import AdminRoutes from "./guards/AdminRoutes";
+import SuperAdminRoutes from "./guards/SuperAdminRoutes";
 
 const RouterManagement = () => {
 	return (
@@ -50,9 +54,19 @@ const RouterManagement = () => {
 				</Route>
 
 				{/* Add the private routes */}
-				<Route path="/" element={<PrivateRoutes />}>
+				<Route path="/" element={<UserRoutes />}>
 					<Route path="dashboard" element={<DashboardPage />} />
 					<Route path="sell-car" element={<SellCarPage />} />
+				</Route>
+
+				{/* Add the admin routes */}
+				<Route path="/admin" element={<AdminRoutes />}>
+					<Route path="dashboard" element={<AdminDashboardPage />} />
+				</Route>
+
+				{/* Add the super admin routes */}
+				<Route path="/admin" element={<SuperAdminRoutes />}>
+					<Route path="create" element={<CreateAdminPage />} />
 				</Route>
 
 				{/* Add the 404 page */}

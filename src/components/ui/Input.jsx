@@ -47,6 +47,17 @@ const Input = ({
 	const onFormChange = (e) => {
 		const { name, value } = e.target;
 
+		if (type === "checkbox") {
+			setFormState((prev) => ({
+				...prev,
+				[name]: {
+					value: !prev[name].value,
+					error: "",
+				},
+			}));
+			return;
+		}
+
 		setFormState((prev) => ({
 			...prev,
 			[name]: {
@@ -64,6 +75,7 @@ const Input = ({
 				<input
 					{...props}
 					value={value || formValue}
+					{...(type === "checkbox" && { checked: formValue })}
 					name={name}
 					className={
 						extendClassName

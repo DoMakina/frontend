@@ -2,6 +2,8 @@ import { MainLayout } from "../../components/layouts";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input, Button } from "../../components/ui";
+import { useApi, useAuth } from "../../hooks";
+import { register } from "../../api/auth";
 
 const initialState = {
 	name: {
@@ -9,10 +11,6 @@ const initialState = {
 		error: "",
 	},
 	surname: {
-		value: "",
-		error: "",
-	},
-	username: {
 		value: "",
 		error: "",
 	},
@@ -28,10 +26,6 @@ const initialState = {
 		value: "",
 		error: "",
 	},
-	birthDate: {
-		value: "",
-		error: "",
-	},
 	acceptTerms: {
 		value: false,
 		error: "",
@@ -40,14 +34,49 @@ const initialState = {
 
 const SignUpPage = () => {
 	const [formState, setFormState] = useState(initialState);
+	const { fetchUser } = useAuth();
+	const { handleApiCall: registerApiCall, loading } = useApi(register, {
+		onValidationError: (error) => {
+			setFormState((prev) => {
+				const newState = { ...prev };
+				error.forEach((err) => {
+					newState[err.path].error = err.msg;
+				});
 
-	const resetForm = () => {
-		setFormState(initialState);
+				return newState;
+			});
+		},
+	});
+
+	const clearErrors = () => {
+		setFormState((prev) => {
+			const newState = { ...prev };
+			Object.keys(newState).forEach((key) => {
+				newState[key].error = "";
+			});
+
+			return newState;
+		});
 	};
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
-		resetForm();
+		if (loading) return;
+		clearErrors();
+
+		const { name, surname, email, password, confirmPassword, acceptTerms } =
+			formState;
+
+		const data = await registerApiCall({
+			name: name.value,
+			surname: surname.value,
+			email: email.value,
+			password: password.value,
+			confirmPassword: confirmPassword.value,
+			acceptTerms: acceptTerms.value,
+		});
+
+		if (data) await fetchUser();
 	};
 
 	return (
@@ -81,15 +110,6 @@ const SignUpPage = () => {
 							</div>
 
 							<Input
-								type="text"
-								placeholder="Username"
-								name="username"
-								formState={formState}
-								setFormState={setFormState}
-								required
-							/>
-
-							<Input
 								type="email"
 								placeholder="Email"
 								name="email"
@@ -116,14 +136,6 @@ const SignUpPage = () => {
 								passwordIcon
 							/>
 
-							<Input
-								type="date"
-								placeholder="Birth Date"
-								name="birthDate"
-								formState={formState}
-								setFormState={setFormState}
-								required
-							/>
 							<div className="flex w-full flex-row items-center justify-start space-x-1.5">
 								<Input
 									id="checkbox"
@@ -152,6 +164,7 @@ const SignUpPage = () => {
 								type="submit"
 								className="whitespace-nowrap"
 								extendClassName
+								loading={loading}
 							>
 								Sign Up
 							</Button>

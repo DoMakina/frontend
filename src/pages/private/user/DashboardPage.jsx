@@ -1,7 +1,7 @@
-import { MainLayout } from "../../components/layouts";
-import { GridDashboardCar } from "../../components/pages/Dashboard";
+import { MainLayout } from "../../../components/layouts";
+import { GridDashboardCar } from "../../../components/pages/Dashboard";
 import { FaCircleUser } from "react-icons/fa6";
-import { useAuth } from "../../hooks";
+import { useAuth } from "../../../hooks";
 
 const DashboardPage = () => {
 	const { currentUser } = useAuth();

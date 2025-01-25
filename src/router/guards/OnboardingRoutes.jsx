@@ -8,11 +8,20 @@ const OnboardingRoutes = () => {
 		return <Navigate to="/login" />;
 	}
 
-	if (currentUser?.isVerified) {
+	if (!currentUser?.isVerified) {
+		return <Outlet />;
+	}
+
+	if (currentUser?.roles?.includes("user")) {
 		return <Navigate to="/dashboard" />;
 	}
 
-	return <Outlet />;
+	if (
+		currentUser?.roles?.includes("admin") ||
+		currentUser?.roles?.includes("superadmin")
+	) {
+		return <Navigate to="/admin" />;
+	}
 };
 
 export default OnboardingRoutes;

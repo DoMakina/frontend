@@ -1,27 +1,27 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 
-const AuthRoutes = () => {
+const AdminRoutes = () => {
 	const { currentUser } = useAuth();
 
 	if (!currentUser) {
-		return <Outlet />;
+		return <Navigate to="/login" />;
 	}
 
 	if (!currentUser?.isVerified) {
 		return <Navigate to="/onboarding" />;
 	}
 
-	if (currentUser?.roles?.includes("user")) {
-		return <Navigate to="/dashboard" />;
-	}
-
 	if (
 		currentUser?.roles?.includes("admin") ||
 		currentUser?.roles?.includes("superadmin")
 	) {
-		return <Navigate to="/admin" />;
+		return <Outlet />;
+	}
+
+	if (currentUser?.roles?.includes("user")) {
+		return <Navigate to="/dashboard" />;
 	}
 };
 
-export default AuthRoutes;
+export default AdminRoutes;

@@ -1,11 +1,11 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 
-const AuthRoutes = () => {
+const UserRoutes = () => {
 	const { currentUser } = useAuth();
 
 	if (!currentUser) {
-		return <Outlet />;
+		return <Navigate to="/login" />;
 	}
 
 	if (!currentUser?.isVerified) {
@@ -13,7 +13,7 @@ const AuthRoutes = () => {
 	}
 
 	if (currentUser?.roles?.includes("user")) {
-		return <Navigate to="/dashboard" />;
+		return <Outlet />;
 	}
 
 	if (
@@ -24,4 +24,4 @@ const AuthRoutes = () => {
 	}
 };
 
-export default AuthRoutes;
+export default UserRoutes;
