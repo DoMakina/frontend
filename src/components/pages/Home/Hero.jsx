@@ -7,7 +7,7 @@ import { fetchFiveLatestPromotionCars } from "../../../api/public.js";
 import { useEffect, useState } from "react";
 
 export default function HeroSection() {
-	const { handleApiCall, loading } = useApi(fetchFiveLatestPromotionCars);
+	const { handleApiCall } = useApi(fetchFiveLatestPromotionCars);
 	const [index, setIndex] = useState(0);
 	const [promotedCars, setPromotedCars] = useState([]);
 	useEffect(() => {

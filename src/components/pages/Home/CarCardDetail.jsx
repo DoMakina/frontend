@@ -33,7 +33,7 @@ export default function CarDetailsCard({ data }) {
 			</div>
 
 			<button className="w-full rounded-lg bg-theme-blue py-3 font-semibold text-white">
-				MAKE AN OFFER
+				View Car
 			</button>
 		</div>
 	);
