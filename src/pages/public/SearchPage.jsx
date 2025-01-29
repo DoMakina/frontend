@@ -2,80 +2,41 @@ import { useState, useEffect } from "react";
 import { MainLayout } from "../../components/layouts";
 import { CarCard } from "../../components/pages/Search";
 import { FiSearch, FiFilter } from "react-icons/fi";
-import { LocalStorageUtils } from "../../utils";
+import { useApi } from "../../hooks";
+import { searchCars } from "../../api/public";
 
 const SearchPage = () => {
 	const [cars, setCars] = useState([]);
-	const [filteredCars, setFilteredCars] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedBrands, setSelectedBrands] = useState([]);
-	const [sortOption, setSortOption] = useState("recommended");
+	const [brands, setBrands] = useState([]);
+	const [selectedBrandIds, setSelectedBrandIds] = useState([]);
+
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-	useEffect(() => {
-		const storedCars = LocalStorageUtils.getItem("cars") || [];
-		setCars(storedCars);
-		setFilteredCars(storedCars);
-	}, []);
+	const { handleApiCall: getBrandsApiCall, loading: loadingBrands } =
+		useApi(searchCars);
+
+	const { handleApiCall: searchCarsApiCall, loading: loadingCars } =
+		useApi(searchCars);
 
 	useEffect(() => {
-		let result = [...cars]; // Create a new array to avoid mutating the original
-
-		if (searchTerm) {
-			result = result.filter(
-				(car) =>
-					car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-					car.brand
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
-					car.model.toLowerCase().includes(searchTerm.toLowerCase()),
-			);
-		}
-
-		if (selectedBrands.length > 0) {
-			result = result.filter((car) => selectedBrands.includes(car.brand));
-		}
-
-		switch (sortOption) {
-			case "price_low_high":
-				result.sort((a, b) => a.price - b.price);
-				break;
-			case "price_high_low":
-				result.sort((a, b) => b.price - a.price);
-				break;
-			default:
-				break;
-		}
-
-		setFilteredCars(result);
-	}, [cars, searchTerm, selectedBrands, sortOption]); // Add sortOption here
+		searchCarsApiCall({
+			page: 1,
+			minPrice: 0,
+			maxPrice: 1000000,
+			brandIds: selectedBrandIds,
+		}).then((res) => {
+			setCars(res.data);
+		});
+	}, [selectedBrandIds]);
 
 	const handleSearchChange = (e) => {
 		setSearchTerm(e.target.value);
 	};
 
-	const handleBrandChange = (brand) => {
-		setSelectedBrands((prev) =>
-			prev.includes(brand)
-				? prev.filter((b) => b !== brand)
-				: [...prev, brand],
-		);
-	};
-
-	const handleSortChange = (e) => {
-		const newSortOption = e.target.value;
-		setSortOption((prevSortOption) => {
-			if (prevSortOption !== newSortOption) {
-				return newSortOption;
-			}
-			return prevSortOption;
-		});
-	};
-
 	const resetFilters = () => {
 		setSearchTerm("");
-		setSelectedBrands([]);
-		setSortOption("recommended");
+		setSelectedBrandIds([]);
 	};
 
 	const availableBrands = [...new Set(cars.map((car) => car.brand))];
@@ -101,22 +62,6 @@ const SearchPage = () => {
 					</div>
 
 					<div className="flex w-full items-center justify-between gap-4 md:w-auto">
-						<select
-							className="rounded-full border border-gray-200 bg-white p-2 text-sm"
-							value={sortOption}
-							onChange={handleSortChange}
-						>
-							<option value="recommended">
-								Sort by: Recommended
-							</option>
-							<option value="price_low_high">
-								Price: Low to High
-							</option>
-							<option value="price_high_low">
-								Price: High to Low
-							</option>
-						</select>
-
 						<button
 							className="flex items-center gap-2 rounded-full border border-gray-200 bg-white p-2 text-sm md:hidden"
 							onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -157,16 +102,32 @@ const SearchPage = () => {
 												key={brand}
 												className="flex items-center gap-2"
 											>
-												<input
+												{/* <input
 													type="checkbox"
 													className="rounded"
 													checked={selectedBrands.includes(
 														brand,
 													)}
 													onChange={() =>
-														handleBrandChange(brand)
+														setBrandIds((prev) => {
+															if (
+																prev.includes(
+																	brand,
+																)
+															) {
+																return prev.filter(
+																	(b) =>
+																		b !==
+																		brand,
+																);
+															}
+															return [
+																...prev,
+																brand,
+															];
+														})
 													}
-												/>
+												/> */}
 												<span className="text-sm">
 													{brand}
 												</span>
@@ -181,7 +142,7 @@ const SearchPage = () => {
 					{/* Car Grid */}
 					<div className="flex-1">
 						<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{filteredCars.map((car) => (
+							{cars.map((car) => (
 								<CarCard key={car.id} car={car} />
 							))}
 						</div>

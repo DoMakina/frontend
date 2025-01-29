@@ -1,10 +1,31 @@
 import { FaChevronRight } from "react-icons/fa";
 import { CarCard } from "../Search";
-import { LocalStorageUtils } from "../../../utils";
 import { Link } from "react-router-dom";
+import { useApi } from "../../../hooks";
+import { fetchHomeCars } from "../../../api/public";
+import { useEffect, useState } from "react";
 
 export default function CarGrid() {
-	const cars = LocalStorageUtils.getItem("cars") || [];
+	const { handleApiCall, loading } = useApi(fetchHomeCars);
+	const [cars, setCars] = useState([]);
+
+	useEffect(() => {
+		handleApiCall().then((data) => {
+			setCars(data);
+		});
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="flex w-full items-center justify-center px-6 lg:px-14">
+				<div className="flex w-full max-w-7xl flex-col items-center justify-center">
+					<h2 className="text-center text-2xl font-semibold text-gray-700">
+						Loading cars...
+					</h2>
+				</div>
+			</div>
+		);
+	}
 
 	return cars.length === 0 ? (
 		<div className="flex w-full items-center justify-center px-6 lg:px-14">
@@ -29,7 +50,7 @@ export default function CarGrid() {
 
 				{/* Car Cards Grid */}
 				<div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-					{cars.slice(0, 6).map((car, index) => (
+					{cars.map((car, index) => (
 						<CarCard key={index} car={car} />
 					))}
 				</div>

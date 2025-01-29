@@ -26,9 +26,6 @@ export default function ServicesSection() {
 								<h3 className="text-2xl font-semibold text-gray-900">
 									Buy Car
 								</h3>
-								<span className="text-gray-400">
-									3.4K cars available
-								</span>
 							</div>
 							<p className="mb-4 text-gray-500">
 								Buy your car from DoMakina and explore a wide
@@ -36,21 +33,6 @@ export default function ServicesSection() {
 								preferred choice, and we will help you find the
 								best deals without the hassle.
 							</p>
-							<div className="flex justify-end">
-								<svg
-									className="h-6 w-6 text-gray-400"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M9 5l7 7-7 7"
-									/>
-								</svg>
-							</div>
 						</div>
 					</div>
 
@@ -74,21 +56,6 @@ export default function ServicesSection() {
 								and let us help you get the best price without
 								the hassle.
 							</p>
-							<div className="flex justify-end">
-								<svg
-									className="h-6 w-6 text-gray-400"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M9 5l7 7-7 7"
-									/>
-								</svg>
-							</div>
 						</div>
 					</div>
 				</div>

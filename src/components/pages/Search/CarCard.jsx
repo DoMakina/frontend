@@ -31,8 +31,8 @@ const CarCard = ({ car, removeWishlistCar = () => {} }) => {
 		<div className="overflow-hidden rounded-xl bg-white">
 			<div className="relative">
 				<img
-					src={car?.photos?.[0] || CarExampleImage}
-					alt={car?.name}
+					src={car?.images?.[0] || CarExampleImage}
+					alt={car?.brand}
 					className="h-72 w-full object-cover"
 					onClick={() => navigate(`/car/${car.id}`)}
 				/>
@@ -50,7 +50,7 @@ const CarCard = ({ car, removeWishlistCar = () => {} }) => {
 			<div className="p-4">
 				<div className="mb-2 flex items-start justify-between">
 					<div>
-						<h3 className="font-medium">{car?.name}</h3>
+						<h3 className="font-medium">{car?.brand}</h3>
 						<p className="text-sm text-gray-500">{car?.model}</p>
 					</div>
 					<span className="font-semibold">
@@ -58,14 +58,9 @@ const CarCard = ({ car, removeWishlistCar = () => {} }) => {
 					</span>
 				</div>
 				<div className="flex gap-2">
-					{car?.isElectric && (
+					{car?.promoted && (
 						<span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-600">
-							Full Electric
-						</span>
-					)}
-					{car?.isBestSeller && (
-						<span className="rounded bg-red-100 px-2 py-1 text-xs text-red-600">
-							Best Seller
+							Promoted
 						</span>
 					)}
 				</div>
