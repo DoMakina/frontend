@@ -2,6 +2,8 @@ import { MainLayout } from "../../components/layouts";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input, Button } from "../../components/ui";
+import { useApi } from "../../hooks";
+import { forgetPassword } from "../../api/auth";
 
 const initialState = {
 	email: {
@@ -13,13 +15,48 @@ const initialState = {
 const ForgotPasswordPage = () => {
 	const [formState, setFormState] = useState(initialState);
 
+	const { handleApiCall, loading } = useApi(forgetPassword, {
+		disableSuccessToast: false,
+		onValidationError: (error) => {
+			setFormState((prev) => {
+				const newState = { ...prev };
+				error.forEach((err) => {
+					newState[err.path].error = err.msg;
+				});
+
+				return newState;
+			});
+		},
+	});
+
 	const resetForm = () => {
 		setFormState(initialState);
 	};
 
+	const clearErrors = () => {
+		setFormState((prev) => {
+			const newState = { ...prev };
+			Object.keys(newState).forEach((key) => {
+				newState[key].error = "";
+			});
+
+			return newState;
+		});
+	};
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		resetForm();
+		if (loading) return;
+
+		clearErrors();
+
+		const { email } = formState;
+
+		const data = await handleApiCall({
+			email: email.value,
+		});
+
+		if (data) resetForm();
 	};
 
 	return (
@@ -48,7 +85,7 @@ const ForgotPasswordPage = () => {
 
 						<div className="flex flex-col items-center justify-center space-y-3">
 							<Button
-								// loading={loading}
+								loading={loading}
 								type="submit"
 								className="whitespace-nowrap"
 								extendClassName

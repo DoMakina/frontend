@@ -4,8 +4,7 @@ import MainContent from "../../components/pages/CarPage/MainContent";
 import RightPanel from "../../components/pages/CarPage/RightPanel";
 import { MainLayout } from "../../components/layouts";
 import { useParams, Link } from "react-router-dom";
-// import { LocalStorageUtils } from "../../utils";
-// import carImage from "../../assets/images/car-example.png";
+import carImage from "../../assets/images/car-example.png";
 import { getCar } from "../../api/public";
 
 export default function CarPage() {
@@ -13,12 +12,6 @@ export default function CarPage() {
 
 	const { id } = useParams();
 	const [car, setCar] = useState(null);
-
-	// const cars = LocalStorageUtils.getItem("cars") || [];
-	// const car = cars.find((car) => car.id === id);
-	// if (car && car.photos.length === 0) {
-	// 	car.photos.push(carImage);
-	// }
 
 	useEffect(() => {
 		getCar(id)
