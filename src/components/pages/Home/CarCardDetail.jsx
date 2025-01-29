@@ -1,18 +1,18 @@
 import { GiSteeringWheel } from "react-icons/gi";
 import BMW from "../../../assets/images/BMW.jpeg";
 
-export default function CarDetailsCard() {
+export default function CarDetailsCard({ data }) {
 	return (
 		<div className="max-w-xs rounded-lg bg-gray-800 p-4 transition-all duration-150 hover:scale-[1.02]">
 			<div className="mb-4 flex items-start justify-between">
 				<div>
 					<h3 className="text-xl font-bold text-white">
-						BMW M4cs : M Sport
+						{data?.brand} {data?.model}
 					</h3>
-					<p className="text-gray-400">Full - Sport Car</p>
+					
 				</div>
-				<span className="rounded bg-white px-2 py-1 text-xs font-bold text-black">
-					NEW
+				<span className="rounded bg-white px-2 py-1 text-xs font-bold text-green-700">
+					Promoted
 				</span>
 			</div>
 

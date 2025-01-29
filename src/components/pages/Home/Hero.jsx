@@ -2,8 +2,19 @@ import CarDetailsCard from "./CarCardDetail";
 import { FaStar } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import Benz from "../../../assets/images/Benz.jpeg";
+import { useApi } from "../../../hooks/";
+import { fetchFiveLatestPromotionCars } from "../../../api/public.js";
+import { useEffect, useState } from "react";
 
 export default function HeroSection() {
+	const { handleApiCall, loading } = useApi(fetchFiveLatestPromotionCars);
+	const [promotedCars, setPromotedCars] = useState([]);
+	useEffect(() => {
+		handleApiCall().then((data) => setPromotedCars(data));
+	}, []);
+
+	console.log(promotedCars);
+
 	return (
 		<div className="flex w-full items-center justify-center bg-theme-text px-6 py-11 lg:px-14 lg:pb-24">
 			<div className="flex w-full max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
