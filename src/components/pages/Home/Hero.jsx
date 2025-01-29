@@ -8,12 +8,21 @@ import { useEffect, useState } from "react";
 
 export default function HeroSection() {
 	const { handleApiCall, loading } = useApi(fetchFiveLatestPromotionCars);
+	const [index, setIndex] = useState(0);
 	const [promotedCars, setPromotedCars] = useState([]);
 	useEffect(() => {
 		handleApiCall().then((data) => setPromotedCars(data));
 	}, []);
 
-	console.log(promotedCars);
+	const handleLeftClick = () => {
+		setIndex((prev) =>
+			prev === 0 ? (prev = promotedCars.length - 1) : prev - 1,
+		);
+	};
+
+	const handleRightClick = () => {
+		setIndex((next) => (next === promotedCars.length - 1 ? 0 : next + 1));
+	};
 
 	return (
 		<div className="flex w-full items-center justify-center bg-theme-text px-6 py-11 lg:px-14 lg:pb-24">
@@ -58,17 +67,26 @@ export default function HeroSection() {
 
 				{/* Right Content */}
 				<div className="max-w-sm">
-					<CarDetailsCard />
+					<CarDetailsCard data={promotedCars[index]} />
 					<div className="mt-6 flex items-center justify-between">
 						<span className="text-xl text-white">
-							<span className="text-2xl font-bold">01</span>/5
+							<span className="text-2xl font-bold">
+								{index + 1}
+							</span>
+							/{promotedCars.length}
 						</span>
 						<div className="flex gap-2">
 							<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
-								<FaChevronLeft className="h-6 w-6 text-white" />
+								<FaChevronLeft
+									className="h-6 w-6 text-white"
+									onClick={handleLeftClick}
+								/>
 							</button>
 							<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
-								<FaChevronRight className="h-6 w-6 text-white" />
+								<FaChevronRight
+									className="h-6 w-6 text-white"
+									onClick={handleRightClick}
+								/>
 							</button>
 						</div>
 					</div>
