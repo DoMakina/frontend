@@ -29,13 +29,13 @@ export default function CarPage() {
 				<div className="mx-auto max-w-7xl bg-white p-4">
 					<div className="grid grid-cols-1 gap-6 md:grid-cols-12">
 						<LeftSideBar
-							thumbnails={car.photos}
+							thumbnails={car.images}
 							currentSlide={currentSlide}
 							setCurrentSlide={setCurrentSlide}
 						/>
 						<MainContent
-							name={car.name}
-							thumbnail={car.photos[currentSlide]}
+							name={`${car.brand} ${car.model}`}
+							thumbnail={car.images[currentSlide]}
 						/>
 						<RightPanel carDetails={car} />
 					</div>
