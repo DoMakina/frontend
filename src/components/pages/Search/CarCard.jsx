@@ -54,7 +54,7 @@ const CarCard = ({ car, removeWishlistCar = () => {} }) => {
 						<p className="text-sm text-gray-500">{car?.model}</p>
 					</div>
 					<span className="font-semibold">
-						${car?.price?.toLocaleString()}
+						{car?.price?.toLocaleString()}$
 					</span>
 				</div>
 				<div className="flex gap-2">

@@ -3,43 +3,67 @@ import { MainLayout } from "../../components/layouts";
 import { CarCard } from "../../components/pages/Search";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import { useApi } from "../../hooks";
-import { searchCars } from "../../api/public";
+import { searchCars, getAllBrands } from "../../api/public";
+import { use } from "react";
 
 const SearchPage = () => {
-	const [cars, setCars] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [brands, setBrands] = useState([]);
 	const [selectedBrandIds, setSelectedBrandIds] = useState([]);
+	const [minPrice, setMinPrice] = useState();
+	const [maxPrice, setMaxPrice] = useState();
+	const [cars, setCars] = useState([]);
+	const [hasNextPage, setHasNextPage] = useState(false);
+	const [page, setPage] = useState(1);
 
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const { handleApiCall: getBrandsApiCall, loading: loadingBrands } =
-		useApi(searchCars);
+		useApi(getAllBrands);
 
 	const { handleApiCall: searchCarsApiCall, loading: loadingCars } =
 		useApi(searchCars);
 
 	useEffect(() => {
 		searchCarsApiCall({
-			page: 1,
-			minPrice: 0,
-			maxPrice: 1000000,
+			page,
+			minPrice,
+			maxPrice,
 			brandIds: selectedBrandIds,
-		}).then((res) => {
-			setCars(res.data);
+		}).then((data) => {
+			setCars(data.results);
+			setHasNextPage(data.hasNextPage);
 		});
-	}, [selectedBrandIds]);
+	}, [selectedBrandIds, minPrice, maxPrice, page]);
+
+	useEffect(() => {
+		getBrandsApiCall().then((data) => {
+			setBrands(data);
+		});
+	}, []);
 
 	const handleSearchChange = (e) => {
 		setSearchTerm(e.target.value);
 	};
-
-	const resetFilters = () => {
+	const handleResetFilters = () => {
 		setSearchTerm("");
 		setSelectedBrandIds([]);
+		setMinPrice("");
+
+		setMaxPrice("");
 	};
 
-	const availableBrands = [...new Set(cars.map((car) => car.brand))];
+	const loadMore = () => {
+		setPage((prevPage) => prevPage + 1);
+	};
+	const handlePriceChange = (e, type) => {
+		const value = e.target.value;
+		if (type === "min") {
+			setMinPrice(value);
+		} else {
+			setMaxPrice(value);
+		}
+	};
 
 	return (
 		<MainLayout
@@ -76,16 +100,14 @@ const SearchPage = () => {
 				<div className="flex flex-col gap-8 md:flex-row">
 					{/* Sidebar */}
 					<div
-						className={`w-full md:w-64 md:flex-shrink-0 ${
-							isFilterOpen ? "block" : "hidden md:block"
-						}`}
+						className={`w-full md:w-64 md:flex-shrink-0 ${isFilterOpen ? "block" : "hidden md:block"}`}
 					>
 						<div className="rounded-xl bg-white p-4 shadow-md">
 							<div className="mb-4 flex items-center justify-between">
 								<h3 className="font-medium">Filter</h3>
 								<button
 									className="text-sm text-blue-600"
-									onClick={resetFilters}
+									onClick={handleResetFilters}
 								>
 									Reset
 								</button>
@@ -97,42 +119,71 @@ const SearchPage = () => {
 										Brand
 									</h4>
 									<div className="space-y-2">
-										{availableBrands.map((brand) => (
+										{brands.map((brand) => (
 											<label
-												key={brand}
+												key={brand.id}
 												className="flex items-center gap-2"
 											>
-												{/* <input
+												<input
 													type="checkbox"
 													className="rounded"
-													checked={selectedBrands.includes(
-														brand,
+													checked={selectedBrandIds.includes(
+														brand.id,
 													)}
-													onChange={() =>
-														setBrandIds((prev) => {
-															if (
-																prev.includes(
-																	brand,
-																)
-															) {
-																return prev.filter(
-																	(b) =>
-																		b !==
-																		brand,
-																);
-															}
-															return [
-																...prev,
-																brand,
-															];
-														})
-													}
-												/> */}
+													onChange={(e) => {
+														if (e.target.checked) {
+															setSelectedBrandIds(
+																[
+																	...selectedBrandIds,
+																	brand.id,
+																],
+															);
+														} else {
+															setSelectedBrandIds(
+																selectedBrandIds.filter(
+																	(id) =>
+																		id !==
+																		brand.id,
+																),
+															);
+														}
+													}}
+												/>
 												<span className="text-sm">
-													{brand}
+													{brand.name}
 												</span>
 											</label>
 										))}
+									</div>
+								</div>
+
+								{/* Price Filter */}
+								<div>
+									<h4 className="mb-2 text-sm font-medium">
+										Price
+									</h4>
+									<div className="flex items-center space-x-2">
+										<input
+											type="number"
+											min="0"
+											value={minPrice}
+											onChange={(e) =>
+												handlePriceChange(e, "min")
+											}
+											className="w-full rounded border px-2 py-1 text-sm [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+											placeholder="Min"
+										/>
+										<span className="text-sm">to</span>
+										<input
+											type="number"
+											min="0"
+											value={maxPrice}
+											onChange={(e) =>
+												handlePriceChange(e, "max")
+											}
+											className="w-full rounded border px-2 py-1 text-sm [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+											placeholder="Max"
+										/>
 									</div>
 								</div>
 							</div>
@@ -146,6 +197,17 @@ const SearchPage = () => {
 								<CarCard key={car.id} car={car} />
 							))}
 						</div>
+						{hasNextPage && (
+							<div className="mt-8 flex justify-center">
+								<button
+									onClick={loadMore}
+									className="rounded-full bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
+									disabled={loadingCars}
+								>
+									{loadingCars ? "Loading..." : "Load More"}
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

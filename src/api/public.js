@@ -20,3 +20,5 @@ export const searchCars = ({ minPrice, maxPrice, brandIds, page }) =>
 export const fetchBrands = () => axios.get("/public/brands");
 
 export const fetchHomeCars = () => axios.get("/public/cars/home");
+
+export const getAllBrands = () => axios.get("/public/brands");
