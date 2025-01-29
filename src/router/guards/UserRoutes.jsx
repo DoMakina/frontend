@@ -8,7 +8,7 @@ const UserRoutes = () => {
 		return <Navigate to="/login" />;
 	}
 
-	if (!currentUser?.isVerified) {
+	if (!currentUser?.isActive) {
 		return <Navigate to="/onboarding" />;
 	}
 
