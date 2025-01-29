@@ -1,6 +1,7 @@
 import { GiSteeringWheel } from "react-icons/gi";
 
-export default function CarDetailsCard({ data }) {
+export default function CarDetailsCard({ data, length }) {
+	if (length === 0) return null;
 	// console.log(data);
 	return (
 		<div className="max-w-xs rounded-lg bg-gray-800 p-4 transition-all duration-150 hover:scale-[1.02]">
@@ -35,6 +36,7 @@ export default function CarDetailsCard({ data }) {
 			<button className="w-full rounded-lg bg-theme-blue py-3 font-semibold text-white">
 				View Car
 			</button>
+			
 		</div>
 	);
 }
