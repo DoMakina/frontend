@@ -10,6 +10,7 @@ export default function HeroSection() {
 	const { handleApiCall } = useApi(fetchFiveLatestPromotionCars);
 	const [index, setIndex] = useState(0);
 	const [promotedCars, setPromotedCars] = useState([]);
+
 	useEffect(() => {
 		handleApiCall().then((data) => setPromotedCars(data));
 	}, []);
@@ -66,30 +67,36 @@ export default function HeroSection() {
 				</div>
 
 				{/* Right Content */}
+
 				<div className="max-w-sm">
-					<CarDetailsCard data={promotedCars[index]} />
-					<div className="mt-6 flex items-center justify-between">
-						<span className="text-xl text-white">
-							<span className="text-2xl font-bold">
-								{index + 1}
+					<CarDetailsCard
+						data={promotedCars[index]}
+						length={promotedCars.length}
+					/>
+					{promotedCars.length === 0 ? null : (
+						<div className="mt-6 flex items-center justify-between">
+							<span className="text-xl text-white">
+								<span className="text-2xl font-bold">
+									{index + 1}
+								</span>
+								/{promotedCars.length}
 							</span>
-							/{promotedCars.length}
-						</span>
-						<div className="flex gap-2">
-							<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
-								<FaChevronLeft
-									className="h-6 w-6 text-white"
-									onClick={handleLeftClick}
-								/>
-							</button>
-							<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
-								<FaChevronRight
-									className="h-6 w-6 text-white"
-									onClick={handleRightClick}
-								/>
-							</button>
+							<div className="flex gap-2">
+								<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
+									<FaChevronLeft
+										className="h-6 w-6 text-white"
+										onClick={handleLeftClick}
+									/>
+								</button>
+								<button className="rounded-lg bg-gray-800 p-2 transition-all duration-150 hover:scale-110">
+									<FaChevronRight
+										className="h-6 w-6 text-white"
+										onClick={handleRightClick}
+									/>
+								</button>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</div>

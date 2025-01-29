@@ -4,7 +4,6 @@ import MainContent from "../../components/pages/CarPage/MainContent";
 import RightPanel from "../../components/pages/CarPage/RightPanel";
 import { MainLayout } from "../../components/layouts";
 import { useParams, Link } from "react-router-dom";
-import carImage from "../../assets/images/car-example.png";
 import { getCar } from "../../api/public";
 
 export default function CarPage() {
