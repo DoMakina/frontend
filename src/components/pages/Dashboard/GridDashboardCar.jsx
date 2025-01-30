@@ -1,14 +1,29 @@
 import { useApi } from "../../../hooks";
 import { CarCardDash } from "../Dashboard";
 import { useState, useEffect } from "react";
-import { getCars, deleteCar } from "../../../api/private";
+import {
+	getCars,
+	deleteCar,
+	updateIsSold,
+	deletePromotion,
+} from "../../../api/private";
+
 import { useNavigate } from "react-router-dom";
 
 export default function GridDashboardCar() {
 	const navigate = useNavigate();
 	const [cars, setCars] = useState([]);
+
+	const { handleApiCall: deletePromotionApiCall } = useApi(deletePromotion, {
+		disableSuccessToast: false,
+	});
 	const { handleApiCall: getCarsApiCalls } = useApi(getCars);
+
 	const { handleApiCall: deleteCarApiCall } = useApi(deleteCar, {
+		disableSuccessToast: false,
+	});
+
+	const { handleApiCall: updateIsSoldApiCall } = useApi(updateIsSold, {
 		disableSuccessToast: false,
 	});
 
@@ -16,6 +31,39 @@ export default function GridDashboardCar() {
 		deleteCarApiCall({ id }).then(() => {
 			setCars((prev) => prev.filter((car) => car.id !== id));
 		});
+	};
+
+	const handleIsSold = (id, carIsSold) => {
+		const isSold = !carIsSold;
+
+		updateIsSoldApiCall({ id, isSold }).then((data) => {
+			if (data)
+				setCars((prev) =>
+					prev.map((car) => {
+						if (car.id === id) {
+							return { ...car, isSold };
+						}
+						return car;
+					}),
+				);
+		});
+	};
+
+	const handlePromote = (id, promoted) => {
+		if (promoted) {
+			deletePromotionApiCall({ id }).then((data) => {
+				if (data)
+					setCars((prev) =>
+						prev.map((car) =>
+							car.id === id
+								? { ...car, promoted: !car.promoted }
+								: car,
+						),
+					);
+			});
+		} else {
+			navigate(`/promotion/${id}`);
+		}
 	};
 
 	useEffect(() => {
@@ -50,8 +98,11 @@ export default function GridDashboardCar() {
 							onDelete={() => handleDeleteCar(car.id)}
 							onEdit={() => navigate(`/edit-car/${car.id}`)}
 							onPromote={() => {
-								navigate(`/promotion/${car.id}`);
+								handlePromote(car.id, car.promoted);
 							}}
+							updateIsSold={() =>
+								handleIsSold(car.id, car.isSold)
+							}
 							onImageClick={() => {
 								navigate(`/car/${car.id}`);
 							}}
