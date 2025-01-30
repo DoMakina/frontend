@@ -12,7 +12,11 @@ import {
 	CarPage,
 	WishlistPage,
 } from "../pages/public";
-import { DashboardPage, SellCarPage } from "../pages/private/user";
+import {
+	DashboardPage,
+	SellCarPage,
+	PromotionPage,
+} from "../pages/private/user";
 import { AdminDashboardPage } from "../pages/private/admin";
 import { CreateAdminPage } from "../pages/private/super-admin";
 import { VerifyEmailPage } from "../pages/onboarding";
@@ -57,6 +61,7 @@ const RouterManagement = () => {
 				<Route path="/" element={<UserRoutes />}>
 					<Route path="dashboard" element={<DashboardPage />} />
 					<Route path="sell-car" element={<SellCarPage />} />
+					<Route path="/promotion/:id" element={<PromotionPage />} />
 				</Route>
 
 				{/* Add the admin routes */}

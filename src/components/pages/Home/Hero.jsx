@@ -5,8 +5,9 @@ import Benz from "../../../assets/images/Benz.jpeg";
 import { useApi } from "../../../hooks/";
 import { fetchFiveLatestPromotionCars } from "../../../api/public.js";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function HeroSection() {
+	const navigate = useNavigate();
 	const { handleApiCall } = useApi(fetchFiveLatestPromotionCars);
 	const [index, setIndex] = useState(0);
 	const [promotedCars, setPromotedCars] = useState([]);
@@ -61,7 +62,10 @@ export default function HeroSection() {
 						src={Benz}
 						className="h-[600px] w-full rounded-lg object-cover"
 					/>
-					<button className="absolute bottom-0 left-0 w-full rounded-bl-lg bg-black/50 px-6 py-3 text-white backdrop-blur-sm hover:bg-theme-blue">
+					<button
+						onClick={() => navigate(`/search`)}
+						className="absolute bottom-0 left-0 w-full rounded-bl-lg bg-black/50 px-6 py-3 text-white backdrop-blur-sm hover:bg-theme-blue"
+					>
 						VIEW CATALOG
 					</button>
 				</div>

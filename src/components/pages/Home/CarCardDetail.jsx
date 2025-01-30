@@ -1,7 +1,10 @@
 import { GiSteeringWheel } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 
 export default function CarDetailsCard({ data, length }) {
+	const navigate = useNavigate();
 	if (length === 0) return null;
+
 	// console.log(data);
 	return (
 		<div className="max-w-xs rounded-lg bg-gray-800 p-4 transition-all duration-150 hover:scale-[1.02]">
@@ -33,10 +36,12 @@ export default function CarDetailsCard({ data, length }) {
 				</span>
 			</div>
 
-			<button className="w-full rounded-lg bg-theme-blue py-3 font-semibold text-white">
+			<button
+				onClick={() => navigate(`/car/${data?.id}`)}
+				className="w-full rounded-lg bg-theme-blue py-3 font-semibold text-white"
+			>
 				View Car
 			</button>
-			
 		</div>
 	);
 }
