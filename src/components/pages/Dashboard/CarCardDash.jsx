@@ -1,11 +1,18 @@
 import { MdMoreVert, MdEdit, MdDelete, MdStar } from "react-icons/md";
 import CarExampleImage from "../../../assets/images/car-example.png";
 
-const CarCard = ({ car, onEdit, onDelete, onPromote }) => {
+const CarCard = ({
+	car,
+	onEdit,
+	onDelete,
+	onPromote,
+	onImageClick = () => {},
+}) => {
 	return (
 		<div className="overflow-hidden rounded-xl bg-white shadow-md">
 			<div className="relative">
 				<img
+					onClick={onImageClick}
 					src={car?.images?.[0] || CarExampleImage}
 					alt={`${car?.brand} ${car?.model}`}
 					width={400}
