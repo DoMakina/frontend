@@ -46,6 +46,43 @@ const PromotionPage = () => {
 		setFormState(initialState);
 	};
 
+	const validateForm = () => {
+		let valid = true;
+		const newState = { ...formState };
+
+		// Promotion Days: Must be a number
+		if (!/^\d+$/.test(formState.promotionDays.value)) {
+			newState.promotionDays.error = "Promotion days must be a number.";
+			valid = false;
+		}
+		// Card Number: 16 digits only
+		if (!/^\d{16}$/.test(formState.cardNumber.value)) {
+			newState.cardNumber.error = "Card number must be 16 digits.";
+			valid = false;
+		}
+
+		// Card Name: Only alphabets and spaces
+		if (!/^[a-zA-Z ]{3,50}$/.test(formState.cardName.value)) {
+			newState.cardName.error = "Card name must contain only letters.";
+			valid = false;
+		}
+
+		// Expiry Date: MM/YY format
+		if (!/^(0[1-9]|1[0-2])\/(\d{2})$/.test(formState.expiryDate.value)) {
+			newState.expiryDate.error = "Expiry date must be in MM/YY format.";
+			valid = false;
+		}
+
+		// CVV: 3 or 4 digits
+		if (!/^\d{3,4}$/.test(formState.cvv.value)) {
+			newState.cvv.error = "CVV must be 3 or 4 digits.";
+			valid = false;
+		}
+
+		setFormState(newState);
+		return valid;
+	};
+
 	const clearErrors = () => {
 		setFormState((prev) => {
 			const newState = { ...prev };
@@ -59,7 +96,9 @@ const PromotionPage = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		if (loading) return;
+		if (!validateForm()) return;
 		clearErrors();
 		const newPromotion = {
 			promotionDays: parseInt(formState.promotionDays.value),
@@ -86,6 +125,33 @@ const PromotionPage = () => {
 
 		fetchPromotionPrice();
 	}, []);
+
+	const handleWrongTypeInput = (e) => {
+		let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+
+		setFormState((prev) => ({
+			...prev,
+			[e.target.name]: { ...prev[e.target.name], value }, // Update the correct field dynamically
+		}));
+	};
+
+	const handleExpiryChange = (e) => {
+		let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+
+		if (value.length > 4) {
+			value = value.slice(0, 4); // Ensure it doesn't exceed MMYY format
+		}
+
+		// Auto-insert slash (/) after entering MM
+		if (value.length > 2) {
+			value = value.slice(0, 2) + "/" + value.slice(2);
+		}
+
+		setFormState((prev) => ({
+			...prev,
+			expiryDate: { ...prev.expiryDate, value },
+		}));
+	};
 
 	const totalPromotionPrice = promotionPrice * formState.promotionDays.value;
 
@@ -115,14 +181,14 @@ const PromotionPage = () => {
 									Promotion Duration (days)
 								</label>
 								<Input
-									type="number"
-									min="1"
+									type="text"
 									required
 									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-									placeholder="Enter number of weeks"
+									placeholder="Enter number of days"
 									formState={formState}
 									setFormState={setFormState}
 									name="promotionDays"
+									onChange={handleWrongTypeInput}
 								/>
 							</div>
 							<div>
@@ -135,12 +201,14 @@ const PromotionPage = () => {
 								<Input
 									type="text"
 									required
+									minLength="16"
 									maxLength="16"
 									formState={formState}
 									setFormState={setFormState}
 									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 									placeholder="Card number"
 									name="cardNumber"
+									onChange={handleWrongTypeInput}
 								/>
 							</div>
 							<div>
@@ -155,6 +223,8 @@ const PromotionPage = () => {
 									formState={formState}
 									setFormState={setFormState}
 									required
+									minLength="3"
+									maxLength="40"
 									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 									placeholder="Name on card"
 									name="cardName"
@@ -168,14 +238,17 @@ const PromotionPage = () => {
 									>
 										Expiry date
 									</label>
+
 									<Input
 										type="text"
 										required
+										maxLength="5"
 										formState={formState}
 										setFormState={setFormState}
 										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 										placeholder="MM/YY"
 										name="expiryDate"
+										onChange={handleExpiryChange}
 									/>
 								</div>
 								<div>
@@ -188,11 +261,13 @@ const PromotionPage = () => {
 									<Input
 										type="text"
 										required
+										maxLength="4"
 										formState={formState}
 										setFormState={setFormState}
 										className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 										placeholder="CVV"
 										name="cvv"
+										onChange={handleWrongTypeInput}
 									/>
 								</div>
 							</div>
