@@ -43,14 +43,17 @@ export default function GridDashboardCar() {
 			<div className="flex w-full max-w-7xl flex-col items-center justify-center">
 				{/* Car Cards Grid */}
 				<div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-					{cars.map((car, index) => (
+					{cars.map((car) => (
 						<CarCardDash
-							key={index}
+							key={car.id}
 							car={car}
 							onDelete={() => handleDeleteCar(car.id)}
 							onEdit={() => navigate(`/edit-car/${car.id}`)}
 							onPromote={() => {
 								navigate(`/promotion/${car.id}`);
+							}}
+							onImageClick={() => {
+								navigate(`/car/${car.id}`);
 							}}
 						/>
 					))}
