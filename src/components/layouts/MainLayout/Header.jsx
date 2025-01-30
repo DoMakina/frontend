@@ -11,6 +11,41 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+	const menu = [
+		{
+			title: "Dashboard",
+			link: "/dashboard",
+			roles: ["user"],
+		},
+		{
+			title: "Sell Car",
+			link: "/sell-car",
+			role: ["user"],
+		},
+		{
+			title: "Admin Dashboard",
+			link: "/admin",
+			role: ["admin", "superadmin"],
+		},
+		{
+			title: "Brands",
+			link: "/brands",
+			role: ["admin", "superadmin"],
+		},
+		{
+			title: "Create Admin",
+			link: "/create-admin",
+			role: ["superadmin"],
+		},
+		{
+			title: "Log out",
+			onClick: () => {
+				logout();
+			},
+			role: ["user", "admin", "superadmin"],
+		},
+	];
+
 	return (
 		<header className="flex w-full items-center justify-between bg-theme-text px-8 py-3 text-white">
 			{/* Logo */}
