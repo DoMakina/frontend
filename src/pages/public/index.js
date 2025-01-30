@@ -8,3 +8,4 @@ export { default as VerifyEmailTokenPage } from "./VerifyEmailTokenPage";
 export { default as SearchPage } from "./SearchPage";
 export { default as CarPage } from "./CarPage";
 export { default as WishlistPage } from "./WishlistPage";
+export { default as TermsAndConditions } from "./TermsAndConditions";

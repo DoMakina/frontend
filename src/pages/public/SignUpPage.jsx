@@ -151,10 +151,10 @@ const SignUpPage = () => {
 										I accept the
 									</span>{" "}
 									<Link
-										to="/terms"
+										to="/terms-and-conditions"
 										className="text-[13px] font-semibold text-theme-blue"
 									>
-										Terms of Service
+										Terms and Conditions
 									</Link>
 								</label>
 							</div>

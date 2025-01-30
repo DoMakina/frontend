@@ -11,6 +11,7 @@ import {
 	SearchPage,
 	CarPage,
 	WishlistPage,
+	TermsAndConditions,
 } from "../pages/public";
 import {
 	DashboardPage,
@@ -41,7 +42,10 @@ const RouterManagement = () => {
 					element={<VerifyEmailTokenPage />}
 				/>
 				<Route path="/wishlist" element={<WishlistPage />} />
-
+				<Route
+					path="/terms-and-conditions"
+					element={<TermsAndConditions />}
+				/>
 				{/* Add the auth routes */}
 				<Route path="/" element={<AuthRoutes />}>
 					<Route path="login" element={<LoginPage />} />

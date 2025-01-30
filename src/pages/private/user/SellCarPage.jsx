@@ -1,13 +1,12 @@
 import { MainLayout } from "../../../components/layouts";
 import { Button, Input, TextArea } from "../../../components/ui";
-import { useState } from "react";
-import { CarBrands } from "../../../data";
-import { useAuth } from "../../../hooks";
-import { v4 as uuidv4 } from "uuid";
-import { LocalStorageUtils } from "../../../utils";
+import { useEffect, useState } from "react";
+import { createCar } from "../../../api/private";
+import { getAllBrands } from "../../../api/public";
+import { useApi } from "../../../hooks";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
-	name: { value: "", error: "" },
 	brand: { value: "", error: "" },
 	model: { value: "", error: "" },
 	year: { value: "", error: "" },
@@ -17,52 +16,85 @@ const initialState = {
 };
 
 const SellCarPage = () => {
+	const { handleApiCall: createCarApiCall, loading: loadingCreateCar } =
+		useApi(createCar, {
+			onValidationError: (error) => {
+				setFormState((prev) => {
+					const newState = { ...prev };
+					error.forEach((err) => {
+						newState[err.path].error = err.msg;
+					});
+
+					return newState;
+				});
+			},
+		});
+
+	const { handleApiCall: getBrandsApiCall, loading: loadingBrands } =
+		useApi(getAllBrands);
+
+	const navigate = useNavigate();
+
 	const [formState, setFormState] = useState(initialState);
-	const { currentUser } = useAuth();
+	const [brands, setBrands] = useState([]);
 
 	const resetForm = () => {
 		setFormState(initialState);
 	};
 
-	const handleImageUpload = (e) => {
-		const files = Array.from(e.target.files);
-		const readers = files.map((file) => {
-			return new Promise((resolve) => {
-				const reader = new FileReader();
-				reader.onload = (e) => resolve(e.target.result);
-				reader.readAsDataURL(file);
+	const clearErrors = () => {
+		setFormState((prev) => {
+			const newState = { ...prev };
+			Object.keys(newState).forEach((key) => {
+				newState[key].error = "";
 			});
-		});
 
-		Promise.all(readers).then((images) => {
-			setFormState((prev) => ({
-				...prev,
-				photos: { value: [...prev.photos.value, ...images], error: "" },
-			}));
+			return newState;
 		});
 	};
+
+	const handleImageUpload = (e) => {
+		const files = Array.from(e.target.files);
+
+		// Update state with actual file objects (for FormData)
+		setFormState((prev) => ({
+			...prev,
+			photos: { value: [...prev.photos.value, ...files], error: "" },
+		}));
+	};
+
+	console.log(formState);
 
 	const handleSellCar = async (e) => {
 		e.preventDefault();
+		if (loadingCreateCar || loadingBrands) return;
+		clearErrors();
 
-		const newCar = {
-			id: uuidv4(),
-			userId: currentUser.id,
-			name: formState.name.value,
-			brand: formState.brand.value,
-			model: formState.model.value,
-			year: parseInt(formState.year.value),
-			price: parseFloat(formState.price.value),
-			description: formState.description.value,
-			photos: formState.photos.value,
-			phoneNr: "+1234567890",
-		};
+		const { brand, model, year, price, description, photos } = formState;
 
-		const existingCars = LocalStorageUtils.getItem("cars") || [];
-		LocalStorageUtils.setItem("cars", [...existingCars, newCar]);
+		const formData = new FormData();
 
-		resetForm();
+		formData.append("brandId", brand.value);
+		formData.append("model", model.value);
+		formData.append("year", year.value);
+		formData.append("price", price.value);
+		formData.append("description", description.value);
+		photos.value.forEach((photo) => {
+			formData.append("images", photo);
+		});
+
+		const response = await createCarApiCall(formData);
+		if (response) {
+			resetForm();
+			navigate("/dashboard");
+		}
 	};
+
+	useEffect(() => {
+		getBrandsApiCall().then((data) => {
+			setBrands(data);
+		});
+	}, []);
 
 	return (
 		<MainLayout>
@@ -79,16 +111,29 @@ const SellCarPage = () => {
 							</p>
 						</div>
 						<div className="flex w-full flex-col space-y-1.5">
-							<Input
-								type="text"
-								placeholder="Name"
-								name="name"
-								formState={formState}
-								setFormState={setFormState}
+							<select
+								className="w-full rounded bg-theme-input px-3 py-2 text-[13px] text-theme-text placeholder-theme-light-gray"
+								value={formState.brand.value}
+								onChange={(e) =>
+									setFormState((prev) => ({
+										...prev,
+										brand: {
+											value: e.target.value,
+											error: "",
+										},
+									}))
+								}
 								required
-								minLength={2}
-								maxLength={50}
-							/>
+							>
+								<option value="" disabled>
+									Select Brand
+								</option>
+								{brands.map((brand) => (
+									<option key={brand.id} value={brand.id}>
+										{brand.name}
+									</option>
+								))}
+							</select>
 							<Input
 								type="text"
 								placeholder="Model"
@@ -109,32 +154,9 @@ const SellCarPage = () => {
 								min={1885}
 								max={new Date().getFullYear()}
 							/>
-							<select
-								className="w-full rounded bg-theme-input px-3 py-2 text-[13px] text-theme-text placeholder-theme-light-gray"
-								value={formState.brand.value}
-								onChange={(e) =>
-									setFormState((prev) => ({
-										...prev,
-										brand: {
-											value: e.target.value,
-											error: "",
-										},
-									}))
-								}
-								required
-							>
-								<option value="" disabled>
-									Select Brand
-								</option>
-								{CarBrands.map((brand) => (
-									<option key={brand} value={brand}>
-										{brand}
-									</option>
-								))}
-							</select>
 							<Input
 								type="number"
-								placeholder="Price"
+								placeholder="Price (USD)"
 								name="price"
 								formState={formState}
 								setFormState={setFormState}
@@ -168,7 +190,9 @@ const SellCarPage = () => {
 											(photo, index) => (
 												<img
 													key={index}
-													src={photo}
+													src={URL.createObjectURL(
+														photo,
+													)} // Create URL from File object
 													alt={`Uploaded car photo ${index + 1}`}
 													className="h-20 w-20 rounded object-cover"
 												/>

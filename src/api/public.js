@@ -22,3 +22,10 @@ export const fetchBrands = () => axios.get("/public/brands");
 export const fetchHomeCars = () => axios.get("/public/cars/home");
 
 export const getAllBrands = () => axios.get("/public/brands");
+
+export const getWishlistCars = ({ ids }) =>
+	axios.get("/public/cars/wishlist", {
+		params: {
+			ids,
+		},
+	});
