@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MainLayout } from "../../../components/layouts";
 import {
 	FaUsers,
@@ -10,11 +10,25 @@ import {
 	FaCheck,
 	FaTimes,
 } from "react-icons/fa";
+import {
+	getPromotionPrice,
+	createPromotionPrice,
+	updatePromotionPrice,
+	getDashboardData,
+} from "../../../api/admin";
+import { useApi } from "../../../hooks";
 
 export default function AdminDashboardPage() {
-	// This would typically come from an API call
+	const { handleApiCall: getDashboardDataApiCall } = useApi(getDashboardData);
+	const { handleApiCall: getPromotionPriceApiCall } =
+		useApi(getPromotionPrice);
+	const { handleApiCall: createPromotionPriceApiCall } =
+		useApi(createPromotionPrice);
+	const { handleApiCall: updatePromotionPriceApiCall } =
+		useApi(updatePromotionPrice);
+
 	const [dashboardData, setDashboardData] = useState({
-		numberOfUser: 1,
+		numberOfUser: 0,
 		numberOfAdmins: 0,
 		numberOfCars: 0,
 		numberOfSoldCars: 0,
@@ -24,23 +38,48 @@ export default function AdminDashboardPage() {
 		weekRevenue: 0,
 		todayRevenue: 0,
 		numberOfBrands: 0,
-		promotionPrice: 100, // Added promotion price
-		topFiveBrands: [
-			{ brand: "Toyota", icon_url: "", totalCars: 10 },
-			{ brand: "Ford", icon_url: "", totalCars: 8 },
-			{ brand: "Chevrolet", icon_url: "", totalCars: 6 },
-			{ brand: "Nissan", icon_url: "", totalCars: 4 },
-			{ brand: "Honda", icon_url: "", totalCars: 2 },
-		],
+		topFiveBrands: [],
 	});
 
-	const handlePromotionPriceUpdate = (newPrice) => {
-		setDashboardData((prevData) => ({
-			...prevData,
-			promotionPrice: newPrice,
-		}));
-		// Here you would typically make an API call to update the price on the server
+	const [promotionPrice, setPromotionPrice] = useState(null);
+	const [isPromotionExisting, setIsPromotionExisting] = useState(false); // Track if it exists
+	const handlePromotionPriceUpdate = async (newPrice) => {
+		if (isPromotionExisting) {
+			// If promotion exists, update it
+			const response = await updatePromotionPriceApiCall({
+				price: newPrice,
+			});
+			if (response) {
+				setPromotionPrice(newPrice);
+			}
+		} else {
+			// If it doesn't exist, create it
+			const response = await createPromotionPriceApiCall({
+				price: newPrice,
+			});
+			if (response) {
+				setPromotionPrice(newPrice);
+				setIsPromotionExisting(true);
+			}
+		}
 	};
+
+	useEffect(() => {
+		getPromotionPriceApiCall().then((data) => {
+			if (data && data.price) {
+				setPromotionPrice(parseFloat(data.price));
+				setIsPromotionExisting(true);
+			} else {
+				setPromotionPrice(0);
+				setIsPromotionExisting(false);
+			}
+		});
+		getDashboardDataApiCall().then((data) => {
+			if (data) {
+				setDashboardData(data);
+			}
+		});
+	}, []);
 
 	return (
 		<MainLayout mainOptions={{ paddingVertical: true }}>
@@ -114,7 +153,7 @@ export default function AdminDashboardPage() {
 								value={dashboardData.todayRevenue}
 							/>
 							<PromotionPriceCard
-								value={dashboardData.promotionPrice}
+								value={promotionPrice}
 								onUpdate={handlePromotionPriceUpdate}
 							/>
 						</div>
@@ -272,7 +311,7 @@ function PromotionPriceCard({ value, onUpdate }) {
 				</div>
 			) : (
 				<p className="text-3xl font-bold text-gray-900">
-					${value.toFixed(2)}
+					${value?.toFixed(2)}
 				</p>
 			)}
 		</div>
