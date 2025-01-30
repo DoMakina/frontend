@@ -19,8 +19,11 @@ export const getBrand = ({ id }) => axios.get(`/admin/brands/${id}`);
 
 export const deleteBrand = ({ id }) => axios.delete(`/admin/brands/${id}`);
 export const getPromotionPrice = () => axios.get("/admin/promotion-prices");
-export const createPromotionPrice = (formData) =>
-	axios.post("/admin/promotion-prices", formData);
-export const updatePromotionPrice = (id, formData) =>
-	axios.post(`/admin/promotion-prices/${id}`, formData);
+
+export const createPromotionPrice = ({ price }) =>
+	axios.post("/admin/promotion-prices", { price });
+
+export const updatePromotionPrice = ({ price }) =>
+	axios.put(`/admin/promotion-prices`, { price });
+
 export const getDashboardData = () => axios.get("/admin/dashboard");

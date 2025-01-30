@@ -259,7 +259,7 @@ function RevenueCard({ title, value, highlight = false }) {
 	);
 }
 
-function PromotionPriceCard({ value, onUpdate }) {
+function PromotionPriceCard({ value = 0, onUpdate = () => {} }) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editValue, setEditValue] = useState(value);
 
