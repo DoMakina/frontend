@@ -23,40 +23,49 @@ export default function GridDashboardCar() {
 		disableSuccessToast: false,
 	});
 
+	const { handleApiCall: updateIsSoldApiCall } = useApi(updateIsSold, {
+		disableSuccessToast: false,
+	});
+
 	const handleDeleteCar = (id) => {
 		deleteCarApiCall({ id }).then(() => {
 			setCars((prev) => prev.filter((car) => car.id !== id));
 		});
 	};
 
-	const handleIsSold = (id, isSold) => {
-		updateIsSold({ id, isSold }).then(() => {
-			setCars((prev) =>
-				prev.map((car) => {
-					if (car.id === id) {
-						return { ...car, isSold: !isSold };
-					}
-					return car;
-				}),
-			);
+	const handleIsSold = (id, carIsSold) => {
+		const isSold = !carIsSold;
+
+		updateIsSoldApiCall({ id, isSold }).then((data) => {
+			if (data)
+				setCars((prev) =>
+					prev.map((car) => {
+						if (car.id === id) {
+							return { ...car, isSold };
+						}
+						return car;
+					}),
+				);
 		});
 	};
 
-	const HandlePromote = (id, promoted) => {
+	const handlePromote = (id, promoted) => {
 		if (promoted) {
-			deletePromotionApiCall({ id }).then(() => {
-				setCars((prev) =>
-					prev.map((car) =>
-						car.id === id
-							? { ...car, promoted: !car.promoted }
-							: car,
-					),
-				);
+			deletePromotionApiCall({ id }).then((data) => {
+				if (data)
+					setCars((prev) =>
+						prev.map((car) =>
+							car.id === id
+								? { ...car, promoted: !car.promoted }
+								: car,
+						),
+					);
 			});
 		} else {
 			navigate(`/promotion/${id}`);
 		}
 	};
+
 	useEffect(() => {
 		getCarsApiCalls().then((data) => setCars(data));
 	}, []);
@@ -89,7 +98,7 @@ export default function GridDashboardCar() {
 							onDelete={() => handleDeleteCar(car.id)}
 							onEdit={() => navigate(`/edit-car/${car.id}`)}
 							onPromote={() => {
-								HandlePromote(car.id, car.promoted);
+								handlePromote(car.id, car.promoted);
 							}}
 							updateIsSold={() =>
 								handleIsSold(car.id, car.isSold)
