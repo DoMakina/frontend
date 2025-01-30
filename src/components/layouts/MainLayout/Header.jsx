@@ -11,6 +11,8 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+	const userRoles = currentUser?.roles || [];
+
 	const menu = [
 		{
 			title: "Dashboard",
@@ -20,29 +22,24 @@ const Header = () => {
 		{
 			title: "Sell Car",
 			link: "/sell-car",
-			role: ["user"],
+			roles: ["user"],
 		},
 		{
 			title: "Admin Dashboard",
 			link: "/admin",
-			role: ["admin", "superadmin"],
+			roles: ["admin", "superadmin"],
 		},
 		{
 			title: "Brands",
-			link: "/brands",
-			role: ["admin", "superadmin"],
-		},
-		{
-			title: "Create Admin",
-			link: "/create-admin",
-			role: ["superadmin"],
+			link: "/admin/brands",
+			roles: ["admin", "superadmin"],
 		},
 		{
 			title: "Log out",
 			onClick: () => {
 				logout();
 			},
-			role: ["user", "admin", "superadmin"],
+			roles: ["user", "admin", "superadmin"],
 		},
 	];
 
@@ -81,42 +78,44 @@ const Header = () => {
 
 						{/* Dropdown Menu */}
 						{isDropdownOpen && (
-							<div className="absolute right-0 z-40 mt-2 w-40 rounded-md bg-white shadow-md">
-								<ul className="py-2 text-gray-700">
-									<li>
-										<Link
-											to="/dashboard"
-											className="block px-4 py-2 hover:bg-gray-100"
-											onClick={() =>
-												setIsDropdownOpen(false)
-											}
-										>
-											Dashboard
-										</Link>
-									</li>
-									<li>
-										<Link
-											to="/sell-car"
-											className="block px-4 py-2 hover:bg-gray-100"
-											onClick={() =>
-												setIsDropdownOpen(false)
-											}
-										>
-											Sell Car
-										</Link>
-									</li>
-									<li>
-										<button
-											className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-											onClick={() => {
-												logout();
-												setIsDropdownOpen(false);
-											}}
-										>
-											Log out
-										</button>
-									</li>
-								</ul>
+							<div className="absolute right-0 z-40 mt-2 w-40 overflow-hidden rounded-md bg-white text-theme-text shadow-md">
+								{menu.map((item, index) => {
+									if (
+										item.roles.some((role) =>
+											userRoles.includes(role),
+										)
+									) {
+										if (item.link) {
+											return (
+												<Link
+													key={index}
+													to={item.link}
+													className="block px-4 py-2 hover:bg-gray-100"
+													onClick={() =>
+														setIsDropdownOpen(false)
+													}
+												>
+													{item.title}
+												</Link>
+											);
+										} else {
+											return (
+												<button
+													key={index}
+													className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+													onClick={() => {
+														item.onClick();
+														setIsDropdownOpen(
+															false,
+														);
+													}}
+												>
+													{item.title}
+												</button>
+											);
+										}
+									}
+								})}
 							</div>
 						)}
 					</div>
