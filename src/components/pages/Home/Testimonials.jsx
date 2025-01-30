@@ -19,7 +19,7 @@ export default function TestimonialSection() {
 					</h2>
 					<p className="max-w-2xl text-gray-500">
 						When you reach your goals, our whole community
-						celebrates with you. That is over 180 million members
+						celebrates with you. That is over 180 thousand members
 						sharing.
 					</p>
 				</div>

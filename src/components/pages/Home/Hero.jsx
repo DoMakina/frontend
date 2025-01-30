@@ -34,8 +34,8 @@ export default function HeroSection() {
 						Find & sell your best car easily
 					</h1>
 					<p className="mb-8 text-gray-400">
-						We will help you sell or buy & rent your dream car here
-						easily and quickly that is reliable.
+						We will help you sell or buy your dream car here easily
+						and quickly that is reliable.
 					</p>
 					<div>
 						<div className="mb-2 flex gap-1">
