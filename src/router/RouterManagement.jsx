@@ -18,7 +18,12 @@ import {
 	SellCarPage,
 	PromotionPage,
 } from "../pages/private/user";
-import { AdminDashboardPage } from "../pages/private/admin";
+import {
+	AdminDashboardPage,
+	AdminBrandsPage,
+	AdminEditBrandPage,
+	AdminCreateBrandPage,
+} from "../pages/private/admin";
 import { CreateAdminPage } from "../pages/private/super-admin";
 import { VerifyEmailPage } from "../pages/onboarding";
 import AdminRoutes from "./guards/AdminRoutes";
@@ -76,6 +81,15 @@ const RouterManagement = () => {
 				{/* Add the super admin routes */}
 				<Route path="/admin" element={<SuperAdminRoutes />}>
 					<Route path="create" element={<CreateAdminPage />} />
+					<Route path="brands" element={<AdminBrandsPage />} />
+					<Route
+						path="brands/create"
+						element={<AdminCreateBrandPage />}
+					/>
+					<Route
+						path="brands/edit/:id"
+						element={<AdminEditBrandPage />}
+					/>
 				</Route>
 
 				{/* Add the 404 page */}
