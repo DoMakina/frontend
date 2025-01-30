@@ -26,3 +26,5 @@ export const createCar = (formData) =>
 	});
 export const updateIsSold = ({ id, isSold }) =>
 	axios.put(`/private/cars/${id}/is-sold`, { isSold });
+export const deletePromotion = ({ id }) =>
+	axios.delete(`/private/cars/${id}/promotion`);

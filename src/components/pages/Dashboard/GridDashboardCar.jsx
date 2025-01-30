@@ -1,13 +1,22 @@
 import { useApi } from "../../../hooks";
 import { CarCardDash } from "../Dashboard";
 import { useState, useEffect } from "react";
-import { getCars, deleteCar, updateIsSold } from "../../../api/private";
+import {
+	getCars,
+	deleteCar,
+	updateIsSold,
+	deletePromotion,
+} from "../../../api/private";
+
 import { useNavigate } from "react-router-dom";
 
 export default function GridDashboardCar() {
 	const navigate = useNavigate();
 	const [cars, setCars] = useState([]);
 
+	const { handleApiCall: deletePromotionApiCall } = useApi(deletePromotion, {
+		disableSuccessToast: false,
+	});
 	const { handleApiCall: getCarsApiCalls } = useApi(getCars);
 
 	const { handleApiCall: deleteCarApiCall } = useApi(deleteCar, {
@@ -33,6 +42,21 @@ export default function GridDashboardCar() {
 		});
 	};
 
+	const HandlePromote = (id, promoted) => {
+		if (promoted) {
+			deletePromotionApiCall({ id }).then(() => {
+				setCars((prev) =>
+					prev.map((car) =>
+						car.id === id
+							? { ...car, promoted: !car.promoted }
+							: car,
+					),
+				);
+			});
+		} else {
+			navigate(`/promotion/${id}`);
+		}
+	};
 	useEffect(() => {
 		getCarsApiCalls().then((data) => setCars(data));
 	}, []);
@@ -65,7 +89,7 @@ export default function GridDashboardCar() {
 							onDelete={() => handleDeleteCar(car.id)}
 							onEdit={() => navigate(`/edit-car/${car.id}`)}
 							onPromote={() => {
-								navigate(`/promotion/${car.id}`);
+								HandlePromote(car.id, car.promoted);
 							}}
 							updateIsSold={() =>
 								handleIsSold(car.id, car.isSold)

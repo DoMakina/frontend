@@ -4,6 +4,7 @@ import {
 	MdStar,
 	MdOutlineSell,
 	MdSell,
+	MdStarOutline,
 } from "react-icons/md";
 import CarExampleImage from "../../../assets/images/car-example.png";
 
@@ -40,17 +41,22 @@ const CarCard = ({
 								<MdDelete className="mr-3 h-5 w-5" />
 								Delete
 							</button>
-							{!car?.promoted && (
+
+							{car?.promoted ? (
 								<button
-									onClick={() => {
-										onPromote();
-									}}
-									className="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+									onClick={onPromote}
+									className="flex w-full items-center whitespace-nowrap px-4 py-2 text-xs text-gray-700 hover:bg-gray-100"
 								>
 									<MdStar className="mr-3 h-5 w-5" />
-									{car.promoted
-										? "Remove Promotion"
-										: "Add Promotion"}
+									Remove Promotion
+								</button>
+							) : (
+								<button
+									onClick={onPromote}
+									className="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+								>
+									<MdStarOutline className="mr-3 h-5 w-5" />
+									Add Promotion
 								</button>
 							)}
 							<button
