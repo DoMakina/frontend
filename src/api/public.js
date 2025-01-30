@@ -29,3 +29,5 @@ export const getWishlistCars = ({ ids }) =>
 			ids,
 		},
 	});
+
+export const getPromotionPrice = () => axios.get(`/public/promotion-price`);

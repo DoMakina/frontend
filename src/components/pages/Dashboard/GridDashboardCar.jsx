@@ -3,6 +3,7 @@ import { CarCardDash } from "../Dashboard";
 import { useState, useEffect } from "react";
 import { getCars, deleteCar } from "../../../api/private";
 import { useNavigate } from "react-router-dom";
+
 export default function GridDashboardCar() {
 	const navigate = useNavigate();
 	const [cars, setCars] = useState([]);
@@ -49,7 +50,7 @@ export default function GridDashboardCar() {
 							onDelete={() => handleDeleteCar(car.id)}
 							onEdit={() => navigate(`/edit-car/${car.id}`)}
 							onPromote={() => {
-								navigate(`/promote-car/${car.id}`);
+								navigate(`/promotion/${car.id}`);
 							}}
 						/>
 					))}

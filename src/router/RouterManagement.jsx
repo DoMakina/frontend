@@ -65,7 +65,7 @@ const RouterManagement = () => {
 				<Route path="/" element={<UserRoutes />}>
 					<Route path="dashboard" element={<DashboardPage />} />
 					<Route path="sell-car" element={<SellCarPage />} />
-					<Route path="/promotion/:id" element={<PromotionPage />} />
+					<Route path="promotion/:id" element={<PromotionPage />} />
 				</Route>
 
 				{/* Add the admin routes */}

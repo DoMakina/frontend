@@ -74,7 +74,7 @@ const SearchPage = () => {
 			<div className="w-full space-y-4 px-4 py-6 md:space-y-8">
 				{/* Header */}
 				<div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
-					<div className="relative w-full max-w-2xl">
+					{/* <div className="relative w-full max-w-2xl">
 						<FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
 						<input
 							type="text"
@@ -83,7 +83,7 @@ const SearchPage = () => {
 							value={searchTerm}
 							onChange={handleSearchChange}
 						/>
-					</div>
+					</div> */}
 
 					<div className="flex w-full items-center justify-between gap-4 md:w-auto">
 						<button
