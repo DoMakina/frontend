@@ -15,7 +15,7 @@ function RightPanel(props) {
 				</p>
 			</div>
 
-			<div className="mb-6 space-y-4">
+			{/* <div className="mb-6 space-y-4">
 				<h3 className="text-xl font-bold">Contact owner</h3>
 				{props.carDetails.phoneNr && (
 					<div className="flex items-center justify-between">
@@ -31,7 +31,7 @@ function RightPanel(props) {
 						</a>
 					</div>
 				)}
-			</div>
+			</div> */}
 		</div>
 	);
 }
