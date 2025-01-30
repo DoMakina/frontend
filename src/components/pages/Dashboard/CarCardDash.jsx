@@ -1,11 +1,17 @@
-import { MdMoreVert, MdEdit, MdDelete, MdStar } from "react-icons/md";
+import {
+	MdMoreVert,
+	MdDelete,
+	MdStar,
+	MdOutlineSell,
+	MdSell,
+} from "react-icons/md";
 import CarExampleImage from "../../../assets/images/car-example.png";
 
 const CarCard = ({
 	car,
-	onEdit,
 	onDelete,
 	onPromote,
+	updateIsSold,
 	onImageClick = () => {},
 }) => {
 	return (
@@ -25,15 +31,6 @@ const CarCard = ({
 					</div>
 					<div className="absolute right-0 w-48 scale-0 transition-all duration-200 group-hover:scale-100">
 						<div className="mt-2 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5">
-							{/* <button
-								onClick={() => {
-									onEdit();
-								}}
-								className="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-							>
-								<MdEdit className="mr-3 h-5 w-5" />
-								Edit
-							</button> */}
 							<button
 								onClick={() => {
 									onDelete();
@@ -56,6 +53,21 @@ const CarCard = ({
 										: "Add Promotion"}
 								</button>
 							)}
+							<button
+								onClick={() => {
+									updateIsSold();
+								}}
+								className="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+							>
+								{car.isSold ? (
+									<MdSell className="mr-3 h-5 w-5" />
+								) : (
+									<MdOutlineSell className="mr-3 h-5 w-5" />
+								)}
+								{car.isSold
+									? "Mark as Available"
+									: "Mark as Sold"}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -71,6 +83,11 @@ const CarCard = ({
 					{car?.promoted && (
 						<span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-600">
 							Promoted
+						</span>
+					)}
+					{car?.isSold && (
+						<span className="rounded bg-red-100 px-2 py-1 text-xs text-red-600">
+							Sold
 						</span>
 					)}
 				</div>
