@@ -70,7 +70,7 @@ const RouterManagement = () => {
 
 				{/* Add the admin routes */}
 				<Route path="/admin" element={<AdminRoutes />}>
-					<Route path="dashboard" element={<AdminDashboardPage />} />
+					<Route index element={<AdminDashboardPage />} />
 				</Route>
 
 				{/* Add the super admin routes */}
