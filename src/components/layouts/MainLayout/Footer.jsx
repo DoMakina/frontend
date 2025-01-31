@@ -58,7 +58,7 @@ export default function Footer() {
 						{/* About Section */}
 						<div className="flex flex-col">
 							<h3 className="mb-4 font-medium text-gray-400">
-								ABOUT AUTO.HUNT
+								ABOUT US
 							</h3>
 							<ul className="space-y-3">
 								<li>
