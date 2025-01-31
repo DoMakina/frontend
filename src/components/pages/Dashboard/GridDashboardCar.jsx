@@ -1,5 +1,5 @@
 import { useApi } from "../../../hooks";
-import { CarCardDash } from "../Dashboard";
+import { CarCardDash } from ".";
 import { useState, useEffect } from "react";
 import {
 	getCars,
