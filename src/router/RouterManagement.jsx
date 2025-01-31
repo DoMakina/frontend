@@ -76,10 +76,6 @@ const RouterManagement = () => {
 				{/* Add the admin routes */}
 				<Route path="/admin" element={<AdminRoutes />}>
 					<Route index element={<AdminDashboardPage />} />
-				</Route>
-
-				{/* Add the super admin routes */}
-				<Route path="/admin" element={<SuperAdminRoutes />}>
 					<Route path="create" element={<CreateAdminPage />} />
 					<Route path="brands" element={<AdminBrandsPage />} />
 					<Route
@@ -91,6 +87,11 @@ const RouterManagement = () => {
 						element={<AdminEditBrandPage />}
 					/>
 				</Route>
+
+				{/* Add the super admin routes */}
+				{/* <Route path="/admin" element={<SuperAdminRoutes />}>
+					
+				</Route> */}
 
 				{/* Add the 404 page */}
 				<Route path="*" element={<Error404Page />} />
