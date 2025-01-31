@@ -11,7 +11,7 @@ function RightPanel(props) {
 				<p className="mb-2 font-bold">{props.carDetails.price} $ </p>
 
 				<p className="font-semibold text-emerald-500">
-					Model Year :{props.carDetails.year}
+					Model Year: {props.carDetails.year}
 				</p>
 			</div>
 

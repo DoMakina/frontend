@@ -63,8 +63,6 @@ const SellCarPage = () => {
 		}));
 	};
 
-	console.log(formState);
-
 	const handleSellCar = async (e) => {
 		e.preventDefault();
 		if (loadingCreateCar || loadingBrands) return;
@@ -182,7 +180,7 @@ const SellCarPage = () => {
 									accept="image/*"
 									multiple
 									onChange={handleImageUpload}
-									className="file:bg-theme-primary hover:file:bg-theme-primary-dark w-full text-sm text-theme-text file:mr-4 file:rounded-full file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+									className="w-full text-sm text-theme-text file:mr-4 file:rounded-full file:border-0 file:bg-blue-300 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-500"
 								/>
 								{formState.photos.value.length > 0 && (
 									<div className="mt-2 flex flex-wrap gap-2">
@@ -213,4 +211,3 @@ const SellCarPage = () => {
 };
 
 export default SellCarPage;
- 

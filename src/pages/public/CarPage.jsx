@@ -5,22 +5,21 @@ import RightPanel from "../../components/pages/CarPage/RightPanel";
 import { MainLayout } from "../../components/layouts";
 import { useParams, Link } from "react-router-dom";
 import { getCar } from "../../api/public";
+import { useApi } from "../../hooks";
 
 export default function CarPage() {
+	const { handleApiCall: getCarApiCall } = useApi(getCar);
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	const { id } = useParams();
 	const [car, setCar] = useState(null);
 
 	useEffect(() => {
-		getCar(id)
-			.then((response) => {
-				console.log(response.data);
-				setCar(response.data);
-			})
-			.catch(() => {
-				console.log("Error fetching car");
-			});
+		getCarApiCall(id).then((data) => {
+			if (data) {
+				setCar(data);
+			}
+		});
 	}, [id]);
 
 	return (

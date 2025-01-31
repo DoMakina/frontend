@@ -8,8 +8,8 @@ export const createBrand = (formData) =>
 		},
 	});
 
-export const updateBrand = (id, formData) =>
-	axios.post(`/admin/brands/${id}`, formData, {
+export const updateBrand = ({ id, formData }) =>
+	axios.put(`/admin/brands/${id}`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
